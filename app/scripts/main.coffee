@@ -15,8 +15,10 @@ require.config
     underscore: '../bower_components/lodash/dist/lodash'
     bootstrap: '../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap'
     handlebars: '../bower_components/handlebars/handlebars'
+    router: 'routes/catering'
 
 require [
-  'backbone'
-], (Backbone) ->
-  Backbone.history.start()
+  'backbone',
+  'app'
+], (Backbone, App) ->
+  App.initialize()

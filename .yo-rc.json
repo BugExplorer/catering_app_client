@@ -1,10 +1,10 @@
 {
   "generator-backbone": {
     "appPath": "app",
-    "appName": "CateringAppClient",
+    "appName": "cateringappclient",
     "coffee": true,
     "testFramework": "mocha",
-    "templateFramework": "lodash",
+    "templateFramework": "handlebars",
     "sassBootstrap": true,
     "includeRequireJS": true
   },
