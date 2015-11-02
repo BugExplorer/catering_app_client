@@ -30,9 +30,10 @@ define [
     _initConfiguration: ->
       self = this
 
-      $.ajaxPrefilter((options, originalOptions, jqXHR) ->
-        options.url = "#{self.options.api_endpoint}/#{options.url}"
-      )
+      $.ajaxPrefilter \
+        (options, originalOptions, jqXHR) ->
+          options.url = "#{self.options.api_endpoint}/#{options.url}"
+          no
 
     _initRoutes: ->
       @router = new Router()
@@ -54,17 +55,8 @@ define [
     _initEvents: ->
       self = this
 
-      Session.on 'change', (session) ->
-        console.log("Change")
-        console.log(session)
-
       Session.on 'change:auth', (session) ->
         self.checkAuth()
-
-      # Session.on 'request', (model, xhr, options) ->
-      #   console.log(model)
-      #   console.log(xhr)
-      #   console.log(options)
 
       # Check if user already logined
       # Session.getAuth(callback)

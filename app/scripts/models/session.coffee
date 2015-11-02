@@ -5,9 +5,9 @@ define [
   'use strict';
 
   class SessionModel extends Backbone.Model
-    url: 'sessions.json'
+    url: 'sessions'
 
-    # Backbone.emulateJSON = true
+    Backbone.emulateJSON = true
 
     initialize: () ->
       self = this
@@ -25,27 +25,31 @@ define [
           jqXHR.setRequestHeader('X-Auth-Token', self.get('auth_token'))
       )
 
-    defaults: {}
-
-    parse: (response, xhr) ->
-      _resp = JSON.parse(response)
-      return {
-        "auth": _resp.auth,
-        "auth_token": _resp.auth_token
-      }
+    # # defaults: {}
+    # login: (params) ->
+    #   that = this
+    #   _login = $.ajax(
+    #     url: @url,
+    #     data: params,
+    #     dataType: 'json',
+    #     type: 'GET'
+    #     success: (data, textStatus, jqXHR) ->
+    #       console.log(textStatus)
+    #     error: (data, textStatus, jqXHR) ->
+    #       debugger
+    #       console.log(data)
+    #       console.log(jqXHR)
+    #       console.log(textStatus)
+    #     )
 
 
     login: (params) ->
       self = this
 
-      # this.set({auth: false, auth_token: 'test', email: 'Ivan Dron'})
-      # this.set(params)
       this.fetch(
-        # dataType: 'json',
-        # crossDomain: true,
-        # type: 'GET'
-        # complete: (xhr, textStatus) ->
-        #   console.log(textStatus)
+        data: params,
+        dataType: 'json',
+        type: 'GET'
         success: (model, xhr, options) ->
           console.log("Success")
           console.log(model)
@@ -56,16 +60,16 @@ define [
           console.log(JSON.parse(xhr.responseText))
       )
 
-    logout: (params) ->
-      self = this
+    # logout: (params) ->
+    #   self = this
 
-      this.destroy(
-        success: (model, response) ->
-          model.clear()
-          model.id = null
+    #   this.destroy(
+    #     success: (model, response) ->
+    #       model.clear()
+    #       model.id = null
 
-          self.set({auth: false, auth_token: null, name: null})
-      )
+    #       self.set({auth: false, auth_token: null, name: null})
+      # )
 
     # getAuth: (callback) ->
     #   # this.fetch(
