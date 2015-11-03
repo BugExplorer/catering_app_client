@@ -25,24 +25,6 @@ define [
           jqXHR.setRequestHeader('X-Auth-Token', self.get('auth_token'))
       )
 
-    # # defaults: {}
-    # login: (params) ->
-    #   that = this
-    #   _login = $.ajax(
-    #     url: @url,
-    #     data: params,
-    #     dataType: 'json',
-    #     type: 'GET'
-    #     success: (data, textStatus, jqXHR) ->
-    #       console.log(textStatus)
-    #     error: (data, textStatus, jqXHR) ->
-    #       debugger
-    #       console.log(data)
-    #       console.log(jqXHR)
-    #       console.log(textStatus)
-    #     )
-
-
     login: (params) ->
       self = this
 
@@ -51,36 +33,37 @@ define [
         dataType: 'json',
         type: 'GET'
         success: (model, xhr, options) ->
-          console.log("Success")
+          console.log('Success')
           console.log(model)
+          sessionStorage.setItem('auth_token', model.get('auth_token'))
+          sessionStorage.setItem('name', model.get('name'))
         error: (model, xhr, options) ->
-          console.log("Error")
+          console.log('Error')
           console.log(options)
           console.log(xhr)
-          console.log(JSON.parse(xhr.responseText))
       )
 
-    # logout: (params) ->
-    #   self = this
+    logout: (params) ->
+      self = this
 
-    #   this.destroy(
-    #     success: (model, response) ->
-    #       model.clear()
-    #       model.id = null
+      this.destroy(
+        headers: {
+          'X-Auth-Token': self.get("auth_token")
+        }
+        success: (model, response) ->
+          model.clear()
+          model.id = null
+          sessionStorage.removeItem('auth_token')
+          sessionStorage.removeItem('name')
+          console.log("Logged out")
+          self.set({ auth: false, auth_token: null, name: null} )
+    )
 
-    #       self.set({auth: false, auth_token: null, name: null})
-      # )
-
-    # getAuth: (callback) ->
-    #   # this.fetch(
-    #   #   data: params
-    #   #   success: () ->
-    #   #     alert(this)
-    #   #     console.log(this)
-    #   #     self.render()
-    #   # )
-    #   this.fetch(
-    #     success: callback
-    #   )
+    getAuth: () ->
+      self = this
+      if (sessionStorage.getItem('auth_token') && sessionStorage.getItem('name'))
+        _auth_token = sessionStorage.getItem('auth_token')
+        _name = sessionStorage.getItem('name')
+        self.set({ auth: true, auth_token: _auth_token, name: _name })
 
   return new SessionModel()
