@@ -2,7 +2,7 @@ define [
   'jquery'
   'underscore'
   'backbone'
-  'templates',
+  'templates'
 
   'models/session'
 ], ($, _, Backbone, JST, Session) ->

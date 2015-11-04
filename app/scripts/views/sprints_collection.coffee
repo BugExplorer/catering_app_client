@@ -4,10 +4,12 @@ define [
   'backbone'
   'templates'
 
+  'collections/sprints',
+
   'views/panel'
-], ($, _, Backbone, JST, PanelView) ->
-  class SprintsView extends Backbone.View
-    template: JST['app/scripts/templates/sprints.hbs']
+], ($, _, Backbone, JST, PanelView, SprintsCollection) ->
+  class SprintsCollectionView extends Backbone.View
+    template: JST['app/scripts/templates/sprints_collection.hbs']
 
     el: '#container'
 
@@ -18,9 +20,14 @@ define [
     initialize: () ->
       # @listenTo @model, 'change', @render
 
-    render: () ->
-      @$el.html @template()
+    render: () =>
+      console.log()
+      @$el.html @template(@collection.toJSON())
 
       @panel.$el = @$('#user_panel')
       @panel.render()
       @panel.delegateEvents()
+
+
+
+

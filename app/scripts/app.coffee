@@ -1,15 +1,18 @@
 define [
-  'jquery',
-  'underscore',
-  'backbone',
-  'router',
+  'jquery'
+  'underscore'
+  'backbone'
+  'router'
 
   'models/session'
+  'models/sprint'
 
-  'views/contacts',
-  'views/login',
-  'views/sprints'
-], ($, _, Backbone, Router, Session, ContactsView, LoginView, SprintsView) ->
+  'collections/sprints'
+
+  'views/contacts'
+  'views/login'
+  'views/sprints_collection'
+], ($, _, Backbone, Router, Session, Sprint, SprintsCollection, ContactsView, LoginView, SprintsCollectionView) ->
   class Application
     @defaults =
       api_endpoint: "http://127.0.0.1:3000/api/v1"
@@ -47,7 +50,8 @@ define [
         _view.render()
 
       @router.on 'route:sprints', (page) ->
-        _view = new SprintsView()
+        sprints = new SprintsCollection()
+        _view = new SprintsCollectionView(collection: sprints)
         _view.render()
 
       Backbone.history.start()
@@ -64,6 +68,6 @@ define [
       if Session.get('auth') is true
         @router.navigate("sprints", {trigger: true})
       else
-        @router.navigate("contacts", {trigger: true})
+        @router.navigate("sessions/new", {trigger: true})
 
   return new Application()
