@@ -18,8 +18,7 @@ define [
       })
 
       $.ajaxPrefilter( (options, originalOptions, jqXHR) ->
-        # options.crossDomain = { crossDomain: true }
-        # options.xhrFields = { withCredentials: true }
+        options.xhrFields = { withCredentials: true }
 
         if self.get('auth_token')?
           jqXHR.setRequestHeader('X-Auth-Token', self.get('auth_token'))
