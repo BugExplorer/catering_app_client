@@ -4,8 +4,8 @@ define [
   'backbone'
   'templates'
 
-  'models/session'
-], ($, _, Backbone, JST, Session) ->
+  'instances/sessionModel'
+], ($, _, Backbone, JST, sessionModel) ->
   class LoginView extends Backbone.View
     template: JST['app/scripts/templates/login.hbs']
 
@@ -14,15 +14,14 @@ define [
     events:
       'submit form.login': 'submit'
 
-    initialize: () ->
-      # @listenTo @model, 'change', @render
-
     render: () ->
       @$el.html @template()
 
     submit: (event) ->
-      # $('[type=submit]', event.currentTarget).val('Loading...').prop('disabled', true)
+      $('[type=submit]', event.currentTarget).val('Loading...').prop('disabled', true)
       creds = $(event.currentTarget).serialize()
-      Session.login(creds)
+      # Without that submit event start multiplying on the login button
+      this.undelegateEvents()
+      sessionModel.login(creds)
 
       return false

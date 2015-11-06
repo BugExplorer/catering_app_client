@@ -4,7 +4,7 @@ define [
   'backbone'
   'router'
 
-  'models/session'
+  'instances/sessionModel'
   'models/sprint'
 
   'collections/sprints'
@@ -12,7 +12,7 @@ define [
   'views/contacts'
   'views/login'
   'views/sprints_collection'
-], ($, _, Backbone, Router, Session, Sprint, SprintsCollection, ContactsView, LoginView, SprintsCollectionView) ->
+], ($, _, Backbone, Router, sessionModel, Sprint, SprintsCollection, ContactsView, LoginView, SprintsCollectionView) ->
   class Application
     @defaults =
       api_endpoint: "http://127.0.0.1:3000/api/v1"
@@ -22,13 +22,13 @@ define [
     constructor: (options = {}) ->
       @router = null
       @options = $.extend(Application.defaults, options)
-      @session = null
 
     initialize: () ->
+      sessionModel.getAuth()
+
       this._initConfiguration()
       this._initRoutes()
       this._initEvents()
-
 
     _initConfiguration: ->
       self = this
@@ -59,13 +59,11 @@ define [
     _initEvents: ->
       self = this
 
-      Session.on 'change:auth', (session) ->
+      sessionModel.on 'change:auth', (session) ->
         self.checkAuth()
 
-      Session.getAuth()
-
     checkAuth: ->
-      if Session.get('auth') is true
+      if sessionModel.get('auth') is true
         @router.navigate("sprints", {trigger: true})
       else
         @router.navigate("sessions/new", {trigger: true})

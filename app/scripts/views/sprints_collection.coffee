@@ -21,7 +21,6 @@ define [
       # @listenTo @model, 'change', @render
 
     render: () =>
-      console.log()
       @$el.html @template(sprints: @collection.toJSON())
 
       @panel.$el = @$('#user_panel')
