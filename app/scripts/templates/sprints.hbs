@@ -1,7 +1,11 @@
 <div id="user_panel"></div>
 
-{{#each sprints}}
-  {{this.title}}
-  {{this.state}}
-  <br>
-{{/each}}
+<div class="list-group">
+
+  {{#each sprints}}
+    <a href="#" class="list-group-item">
+      {{this.title}}
+    </a>
+  {{/each}}
+
+</div>
