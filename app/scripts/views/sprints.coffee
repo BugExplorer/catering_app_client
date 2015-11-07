@@ -7,15 +7,14 @@ define [
   'collections/sprints',
 
   'views/panel'
-], ($, _, Backbone, JST, SprintsCollection, PanelView) ->
+  'views/helpers'
+], ($, _, Backbone, JST, SprintsCollection, PanelView, Helpers) ->
   class SprintsCollectionView extends Backbone.View
     template: JST['app/scripts/templates/sprints.hbs']
 
     el: '#container'
 
     panel: new PanelView()
-
-    events: {}
 
     initialize: () ->
       this.collection.bind("sync", this.render, this)

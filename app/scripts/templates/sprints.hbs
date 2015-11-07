@@ -1,11 +1,16 @@
-<div id="user_panel"></div>
+<header id="user_panel"></header>
 
-<div class="list-group">
+<div class="container-fluid">
+  <div class="col-sm-offset-2 col-sm-8 col-sm-offset-2">
+    <ul class="list-group">
 
-  {{#each sprints}}
-    <a href="#" class="list-group-item">
-      {{this.title}}
-    </a>
-  {{/each}}
+      {{#each sprints}}
+        <a href="#/sprint/{{this.id}}" type="button" class="list-group-item">
+          {{this.title}}
+          <span class="pull-right label {{state_class state}}">{{state}}</span>
+        </a>
+      {{/each}}
 
+    </ul>
+  </div>
 </div>
