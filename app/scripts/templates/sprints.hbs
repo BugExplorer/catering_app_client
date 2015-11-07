@@ -5,8 +5,8 @@
     <ul class="list-group">
 
       {{#each sprints}}
-        <a href="#/sprint/{{this.id}}" type="button" class="list-group-item">
-          {{this.title}}
+        <a href="#/sprint/{{id}}" type="button" class="list-group-item">
+          {{title}}
           <span class="pull-right label {{state_class state}}">{{state}}</span>
         </a>
       {{/each}}

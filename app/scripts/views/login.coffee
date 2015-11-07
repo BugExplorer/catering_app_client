@@ -14,7 +14,9 @@ define [
     events:
       'submit form.login': 'submit'
 
-    render: () ->
+    initialize: ->
+
+    render: ->
       @$el.html @template()
 
     submit: (event) ->

@@ -4,4 +4,4 @@ define [
   if sessionModel == undefined
     sessionModel = new Session()
 
-  return sessionModel;
+  return sessionModel

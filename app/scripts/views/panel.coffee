@@ -12,9 +12,9 @@ define [
     events:
       'click .logout': 'logout'
 
-    initialize: () ->
+    initialize: ->
 
-    render: () ->
+    render: ->
       @$el.html @template({ name: sessionModel.get('name') })
 
     logout: (event) ->

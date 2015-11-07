@@ -39,3 +39,37 @@ body {
 .form-group.last {
     margin-bottom:0px;
 }
+
+#sprintContainer h3 {
+    padding: 10px 0;
+    margin: 0;
+}
+
+#daysContainer h4 {
+    padding: 0;
+    margin: 15px 0 0 15px;
+}
+
+#daysContainer hr {
+    padding: 0;
+    margin: 5px 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    line-height: 1;
+}
+
+h3.center {
+    text-align: center;
+}
+
+h3, {
+    font-size: 1.4em;
+    letter-spacing: -1px;
+    font-weight: normal;
+}
+
+p, .price {
+    font-size: 1.1em;
+    line-height: 1.7em;
+}

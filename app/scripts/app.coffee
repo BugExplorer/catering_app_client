@@ -5,14 +5,16 @@ define [
   'router'
 
   'instances/sessionModel'
+
   'models/sprint'
 
   'collections/sprints'
+  'collections/dailyMenus'
 
   'views/login'
   'views/sprints'
-  'views/sprint'
-], ($, _, Backbone, Router, sessionModel, Sprint, SprintsCollection, LoginView, SprintsCollectionView, SprintView) ->
+  'views/dailyRationsForm'
+], ($, _, Backbone, Router, sessionModel, Sprint, SprintsCollection, DailyMenusCollection, LoginView, SprintsCollectionView, DailyRationsFormView) ->
   class Application
     @defaults =
       api_endpoint: "http://127.0.0.1:3000/api/v1"
@@ -38,23 +40,38 @@ define [
 
     _initRoutes: ->
       @router = new Router()
+      # It's here because I need to send a Sprint from Sprints to it's view
+      _sprints = new SprintsCollection()
 
       @router.on 'route:login', (page) ->
         _view = new LoginView()
         _view.render()
 
-      @router.on 'route:sprint', (page, sprint_id) ->
-        _view = new SprintView()
-        _view.render()
+      @router.on 'route:sprint', (sprint_id) =>
+        unless _sprints.get(sprint_id)
+          @router.navigate("sprints", {trigger: true})
+        else
+          _sprint = _sprints.get(sprint_id)
+
+          _dailyMenus = new DailyMenusCollection()
+          new Promise (resolve, reject) =>
+            _dailyMenus.fetch(
+              success: (collection) =>
+                _view = new DailyRationsFormView(_sprint, _dailyMenus)
+                _view.render()
+                resolve()
+            )
 
       @router.on 'route:sprints', (page) ->
-        _sprints = new SprintsCollection()
-        # Maybe I could fetch in the initialize method of the SprintsCollection
-        _sprints.fetch()
-        console.log(_sprints)
-
-        _view = new SprintsCollectionView(collection: _sprints)
-        _view.render()
+        new Promise (resolve, reject) =>
+          _sprints.fetch(
+            success: (model, response) ->
+              _view = new SprintsCollectionView(collection: _sprints)
+              _view.render()
+              resolve()
+            error: (model, response) ->
+              reject 'Unauthorized'
+          )
 
       Backbone.history.start()
 

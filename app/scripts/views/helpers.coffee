@@ -10,3 +10,18 @@ define [
 
       return css_classes[state]
   )
+
+  Handlebars.registerHelper(
+    'to_date_format'
+    (date) ->
+      _date = new Date(date)
+      return _date.getDate() + "." + (_date.getMonth() + 1) + "." + _date.getFullYear()
+  )
+
+  Handlebars.registerHelper(
+    'day_of_week'
+    (day) ->
+      _days = ["Monday", "Tuesday", "Wednesday", "Thursday"
+      , "Friday", "Saturday", "Sunday"]
+      _days[day - 1]
+  )

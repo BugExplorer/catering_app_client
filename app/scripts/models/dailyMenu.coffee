@@ -3,21 +3,16 @@ define [
   'backbone'
 
   'instances/sessionModel'
+], (_, Backbone, sessionModel) ->
+  'use strict';
 
-  'models/sprint'
-], (_, Backbone, sessionModel, SprintModel) ->
-
-  class SprintsCollection extends Backbone.Collection
-
-    model: SprintModel
+  class DailyMenuModel extends Backbone.Model
 
     initialize: () ->
       $.ajaxPrefilter( (options, originalOptions, jqXHR) ->
-        options.xhrFields = { withCredentials: true }
+        options.xhrFields =
+          withCredentials: true
 
         if sessionModel.get('auth_token')
           jqXHR.setRequestHeader('X-Auth-Token', sessionModel.get('auth_token'))
       )
-
-      @url = 'sprints'
-      this.fetch()

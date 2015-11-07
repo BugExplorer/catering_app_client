@@ -16,16 +16,13 @@ define [
 
     panel: new PanelView()
 
-    initialize: () ->
-      this.collection.bind("sync", this.render, this)
+    initialize: (sprint) ->
+      @sprint = sprint
+      # this.collection.bind("sync", this.render, this)
 
-    render: () =>
+    render: ->
       @$el.html @template(sprints: @collection.toJSON())
 
       @panel.$el = @$('#user_panel')
       @panel.render()
       @panel.delegateEvents()
-
-
-
-

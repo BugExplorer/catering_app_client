@@ -4,24 +4,14 @@ define [
   'backbone'
   'templates'
 
-  'models/sprint',
-
-  'views/panel'
   'views/helpers'
-], ($, _, Backbone, JST, SprintModel, PanelView, Helpers) ->
+], ($, _, Backbone, JST, Helpers) ->
   class SprintView extends Backbone.View
-    template: JST['app/scripts/templates/sprints.hbs']
+    template: JST['app/scripts/templates/sprint.hbs']
 
-    el: '#container'
+    initialize: (sprint) ->
+      @sprint = sprint
+      @sprint.bind("sync", this.render, this)
 
-    panel: new PanelView()
-
-    initialize: () ->
-      # this.collection.bind("sync", this.render, this)
-
-    render: () =>
-      @$el.html @template()
-
-      @panel.$el = @$('#user_panel')
-      @panel.render()
-      @panel.delegateEvents()
+    render: ->
+      @$el.html @template(sprint: @sprint.toJSON())

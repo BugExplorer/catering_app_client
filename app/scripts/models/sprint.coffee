@@ -1,9 +1,21 @@
 define [
   'underscore'
   'backbone'
-], (_, Backbone) ->
+
+  'instances/sessionModel'
+
+  'collections/dailyMenus'
+], (_, Backbone, sessionModel, DailyMenusCollection) ->
   'use strict';
 
   class SprintModel extends Backbone.Model
+    idAttribute: "id"
 
-    defaults: {}
+    initialize: () ->
+      $.ajaxPrefilter( (options, originalOptions, jqXHR) ->
+        options.xhrFields =
+          withCredentials: true
+
+        if sessionModel.get('auth_token')
+          jqXHR.setRequestHeader('X-Auth-Token', sessionModel.get('auth_token'))
+      )

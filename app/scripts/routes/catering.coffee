@@ -5,4 +5,4 @@ define [
     routes:
       "sessions/new": "login"
       "sprints": "sprints"
-      "sprint/:id": "sprint"
+      "sprint/:sprint_id": "sprint"

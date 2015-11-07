@@ -4,12 +4,13 @@ define [
 
   'instances/sessionModel'
 
-  'models/sprint'
-], (_, Backbone, sessionModel, SprintModel) ->
+  'models/dailyMenu'
+], (_, Backbone, sessionModel, DailyMenuModel) ->
 
-  class SprintsCollection extends Backbone.Collection
+  class DailyMenusCollection extends Backbone.Collection
+    url: 'daily_menus'
 
-    model: SprintModel
+    model: DailyMenuModel
 
     initialize: () ->
       $.ajaxPrefilter( (options, originalOptions, jqXHR) ->
@@ -18,6 +19,3 @@ define [
         if sessionModel.get('auth_token')
           jqXHR.setRequestHeader('X-Auth-Token', sessionModel.get('auth_token'))
       )
-
-      @url = 'sprints'
-      this.fetch()
