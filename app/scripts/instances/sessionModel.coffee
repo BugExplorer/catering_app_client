@@ -1,6 +1,7 @@
 define [
   'models/session'
 ], (Session) ->
-  sessionModel = new Session();
+  if sessionModel == undefined
+    sessionModel = new Session()
 
   return sessionModel;
