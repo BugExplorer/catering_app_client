@@ -18,5 +18,4 @@ define [
       @$el.html @template({ name: sessionModel.get('name') })
 
     logout: (event) ->
-      $(event.currentTarget).text('Loading ...').prop('disabled', true)
       sessionModel.logout()

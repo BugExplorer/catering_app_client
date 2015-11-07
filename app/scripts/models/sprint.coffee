@@ -6,7 +6,6 @@ define [
 
   class SprintModel extends Backbone.Model
 
-
     # defaults: {}
 
     # validate: (attrs, options) ->

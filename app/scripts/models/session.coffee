@@ -31,9 +31,8 @@ define [
         type: 'POST'
         success: (model, xhr, options) ->
           console.log('Login Success')
-          console.log(model)
-          localStorage.setItem('auth_token', model.get('auth_token'))
-          localStorage.setItem('name', model.get('name'))
+          sessionStorage.setItem('auth_token', model.get('auth_token'))
+          sessionStorage.setItem('name', model.get('name'))
         error: (model, xhr, options) ->
           console.log('Login Error')
           console.log(options)
@@ -45,13 +44,13 @@ define [
         success: (model, response) ->
           model.clear()
           model.id = null
-          localStorage.removeItem('auth_token')
-          localStorage.removeItem('name')
+          sessionStorage.removeItem('auth_token')
+          sessionStorage.removeItem('name')
       )
 
     getAuth: () ->
       self = this
-      if (localStorage.getItem('auth_token') && localStorage.getItem('name'))
-        _auth_token = localStorage.getItem('auth_token')
-        _name = localStorage.getItem('name')
+      if (sessionStorage.getItem('auth_token') && sessionStorage.getItem('name'))
+        _auth_token = sessionStorage.getItem('auth_token')
+        _name = sessionStorage.getItem('name')
         self.set({ auth: true, auth_token: _auth_token, name: _name })

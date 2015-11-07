@@ -5,9 +5,9 @@ define [
 ], (_, Backbone, SprintModel) ->
 
   class SprintsCollection extends Backbone.Collection
-    model: SprintModel
-
     url: 'sprints'
+
+    model: SprintModel
 
     initialize: () ->
       self = this
@@ -19,16 +19,3 @@ define [
           jqXHR.setRequestHeader('X-Auth-Token',
             sessionStorage.getItem('auth_token'))
       )
-
-      this.fetch(
-        dataType: 'json',
-        type: 'GET'
-        success: (collection, xhr, options) ->
-          console.log('Success')
-          console.log(collection)
-        error: (collection, xhr, options) ->
-          console.log('Error')
-          console.log(options)
-          console.log(xhr)
-      )
-

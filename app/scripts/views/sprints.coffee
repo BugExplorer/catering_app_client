@@ -9,7 +9,7 @@ define [
   'views/panel'
 ], ($, _, Backbone, JST, SprintsCollection, PanelView) ->
   class SprintsCollectionView extends Backbone.View
-    template: JST['app/scripts/templates/sprints_collection.hbs']
+    template: JST['app/scripts/templates/sprints.hbs']
 
     el: '#container'
 
@@ -18,7 +18,7 @@ define [
     events: {}
 
     initialize: () ->
-      # @listenTo @model, 'change', @render
+      this.collection.bind("sync", this.render, this)
 
     render: () =>
       @$el.html @template(sprints: @collection.toJSON())

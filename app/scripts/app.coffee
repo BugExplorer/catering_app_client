@@ -11,7 +11,7 @@ define [
 
   'views/contacts'
   'views/login'
-  'views/sprints_collection'
+  'views/sprints'
 ], ($, _, Backbone, Router, sessionModel, Sprint, SprintsCollection, ContactsView, LoginView, SprintsCollectionView) ->
   class Application
     @defaults =
@@ -50,8 +50,10 @@ define [
         _view.render()
 
       @router.on 'route:sprints', (page) ->
-        sprints = new SprintsCollection()
-        _view = new SprintsCollectionView(collection: sprints)
+        _sprints = new SprintsCollection()
+        _sprints.fetch()
+
+        _view = new SprintsCollectionView(collection: _sprints)
         _view.render()
 
       Backbone.history.start()
