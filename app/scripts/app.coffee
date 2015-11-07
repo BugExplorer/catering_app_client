@@ -9,10 +9,9 @@ define [
 
   'collections/sprints'
 
-  'views/contacts'
   'views/login'
   'views/sprints'
-], ($, _, Backbone, Router, sessionModel, Sprint, SprintsCollection, ContactsView, LoginView, SprintsCollectionView) ->
+], ($, _, Backbone, Router, sessionModel, Sprint, SprintsCollection, LoginView, SprintsCollectionView) ->
   class Application
     @defaults =
       api_endpoint: "http://127.0.0.1:3000/api/v1"
@@ -43,10 +42,6 @@ define [
 
       @router.on 'route:login', (page) ->
         _view = new LoginView()
-        _view.render()
-
-      @router.on 'route:contacts', (page) ->
-        _view = new ContactsView()
         _view.render()
 
       @router.on 'route:sprints', (page) ->
