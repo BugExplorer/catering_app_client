@@ -11,7 +11,8 @@ define [
 
   'views/login'
   'views/sprints'
-], ($, _, Backbone, Router, sessionModel, Sprint, SprintsCollection, LoginView, SprintsCollectionView) ->
+  'views/sprint'
+], ($, _, Backbone, Router, sessionModel, Sprint, SprintsCollection, LoginView, SprintsCollectionView, SprintView) ->
   class Application
     @defaults =
       api_endpoint: "http://127.0.0.1:3000/api/v1"
@@ -30,12 +31,10 @@ define [
       this._initEvents()
 
     _initConfiguration: ->
-      self = this
-
       $.ajaxPrefilter \
-        (options, originalOptions, jqXHR) ->
-          options.url = "#{self.options.api_endpoint}/#{options.url}"
-          no
+        (options, originalOptions, jqXHR) =>
+          options.url = "#{@options.api_endpoint}/#{options.url}"
+          return false
 
     _initRoutes: ->
       @router = new Router()
@@ -44,9 +43,15 @@ define [
         _view = new LoginView()
         _view.render()
 
+      @router.on 'route:sprint', (page, sprint_id) ->
+        _view = new SprintView()
+        _view.render()
+
       @router.on 'route:sprints', (page) ->
         _sprints = new SprintsCollection()
+        # Maybe I could fetch in the initialize method of the SprintsCollection
         _sprints.fetch()
+        console.log(_sprints)
 
         _view = new SprintsCollectionView(collection: _sprints)
         _view.render()
@@ -54,10 +59,8 @@ define [
       Backbone.history.start()
 
     _initEvents: ->
-      self = this
-
-      sessionModel.on 'change:auth', (session) ->
-        self.checkAuth()
+      sessionModel.on 'change:auth', (session) =>
+        this.checkAuth()
 
     checkAuth: ->
       if sessionModel.get('auth') is true

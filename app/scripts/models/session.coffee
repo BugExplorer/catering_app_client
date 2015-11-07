@@ -10,18 +10,16 @@ define [
     Backbone.emulateJSON = true
 
     initialize: () ->
-      self = this
-
       $.ajaxSetup({
         'beforeSend': (xhr) ->
           xhr.setRequestHeader("accept", "application/json");
       })
 
-      $.ajaxPrefilter( (options, originalOptions, jqXHR) ->
+      $.ajaxPrefilter( (options, originalOptions, jqXHR) =>
         options.xhrFields = { withCredentials: true }
 
-        if self.get('auth_token')?
-          jqXHR.setRequestHeader('X-Auth-Token', self.get('auth_token'))
+        if this.get('auth_token')?
+          jqXHR.setRequestHeader('X-Auth-Token', this.get('auth_token'))
       )
 
     login: (params) ->
@@ -49,8 +47,9 @@ define [
       )
 
     getAuth: () ->
-      self = this
+      # ToDo. It's not a proper way.
+      # Should validate auth-token from the sessionStorage
       if (sessionStorage.getItem('auth_token') && sessionStorage.getItem('name'))
         _auth_token = sessionStorage.getItem('auth_token')
         _name = sessionStorage.getItem('name')
-        self.set({ auth: true, auth_token: _auth_token, name: _name })
+        this.set({ auth: true, auth_token: _auth_token, name: _name })

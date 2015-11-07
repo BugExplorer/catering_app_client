@@ -10,11 +10,10 @@ define [
     model: SprintModel
 
     initialize: () ->
-      self = this
-
       $.ajaxPrefilter( (options, originalOptions, jqXHR) ->
         options.xhrFields = { withCredentials: true }
 
+        # It's not a safe way
         if sessionStorage.getItem('auth_token')
           jqXHR.setRequestHeader('X-Auth-Token',
             sessionStorage.getItem('auth_token'))
