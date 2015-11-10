@@ -53,3 +53,5 @@ define [
         _auth_token = sessionStorage.getItem('auth_token')
         _name = sessionStorage.getItem('name')
         this.set({ auth: true, auth_token: _auth_token, name: _name })
+
+  return new SessionModel()

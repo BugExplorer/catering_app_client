@@ -2,8 +2,8 @@ define [
   'underscore'
   'backbone'
 
-  'instances/sessionModel'
-], (_, Backbone, sessionModel) ->
+  'models/session'
+], (_, Backbone, SessionModel) ->
   'use strict';
 
   class DailyMenuModel extends Backbone.Model
@@ -13,6 +13,6 @@ define [
         options.xhrFields =
           withCredentials: true
 
-        if sessionModel.get('auth_token')
-          jqXHR.setRequestHeader('X-Auth-Token', sessionModel.get('auth_token'))
+        if SessionModel.get('auth_token')
+          jqXHR.setRequestHeader('X-Auth-Token', SessionModel.get('auth_token'))
       )

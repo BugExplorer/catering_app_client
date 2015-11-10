@@ -4,8 +4,8 @@ define [
   'backbone'
   'templates'
 
-  'instances/sessionModel'
-], ($, _, Backbone, JST, sessionModel) ->
+  'models/session'
+], ($, _, Backbone, JST, SessionModel) ->
   class LoginView extends Backbone.View
     template: JST['app/scripts/templates/login.hbs']
 
@@ -23,6 +23,6 @@ define [
       creds = $(event.currentTarget).serialize()
       # Without that submit event start multiplying on the login button
       this.undelegateEvents()
-      sessionModel.login(creds)
+      SessionModel.login(creds)
 
       return false

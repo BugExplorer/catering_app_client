@@ -4,8 +4,8 @@ define [
   'backbone'
   'templates'
 
-  'instances/sessionModel'
-], ($, _, Backbone, JST, sessionModel) ->
+  'models/session'
+], ($, _, Backbone, JST, SessionModel) ->
   class PanelView extends Backbone.View
     template: JST['app/scripts/templates/panel.hbs']
 
@@ -15,7 +15,7 @@ define [
     initialize: ->
 
     render: ->
-      @$el.html @template({ name: sessionModel.get('name') })
+      @$el.html @template({ name: SessionModel.get('name') })
 
     logout: (event) ->
-      sessionModel.logout()
+      SessionModel.logout()

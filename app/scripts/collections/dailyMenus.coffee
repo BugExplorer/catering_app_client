@@ -2,10 +2,10 @@ define [
   'underscore'
   'backbone'
 
-  'instances/sessionModel'
+  'models/session'
 
   'models/dailyMenu'
-], (_, Backbone, sessionModel, DailyMenuModel) ->
+], (_, Backbone, SessionModel, DailyMenuModel) ->
 
   class DailyMenusCollection extends Backbone.Collection
     url: 'daily_menus'
@@ -16,6 +16,6 @@ define [
       $.ajaxPrefilter( (options, originalOptions, jqXHR) ->
         options.xhrFields = { withCredentials: true }
 
-        if sessionModel.get('auth_token')
-          jqXHR.setRequestHeader('X-Auth-Token', sessionModel.get('auth_token'))
+        if SessionModel.get('auth_token')
+          jqXHR.setRequestHeader('X-Auth-Token', SessionModel.get('auth_token'))
       )
