@@ -7,13 +7,18 @@ define [
   'views/sprint'
   'views/dailyMenus'
   'views/panel'
-], ($, _, Backbone, JST, SprintView, DailyMenusCollectionView, PanelView) ->
+
+  'models/order'
+], ($, _, Backbone, JST, SprintView, DailyMenusCollectionView, PanelView, OrderModel) ->
   class DailyRationsFormView extends Backbone.View
     template: JST['app/scripts/templates/dailyRationsForm.hbs']
 
     el: '#container'
 
     panel: new PanelView()
+
+    events:
+      'submit form.dailyRations': 'submit'
 
     initialize: (sprint, dailyMenus, api_endpoint) ->
       @sprint = sprint
@@ -34,9 +39,19 @@ define [
       @sprintView.render()
 
       # Render form tabs
-      @dailyMenusView.$el = @$('#daysContainer')
+      @dailyMenusView.$el = @$('#dailyMenus')
       @dailyMenusView.render()
 
-      # Setting action attribute on the form
-      # Maybe I could create a new model, serialize form and post data via js
-      $('#daysContainer').attr('action', @api_endpoint + '/sprints/' + @sprint.get('id') + '/daily_rations')
+    submit: (event) ->
+      # Without that submit event start multiplying on the submit button
+      this.undelegateEvents()
+
+      creds = @$(event.currentTarget).serialize()
+      # Send params to a separate model, that sends POST to the server
+      order = new OrderModel(@sprint.get('id'))
+      order.save(creds).then(() ->
+        # Todo: make some message
+        Backbone.history.navigate('sprints', {trigger: true})
+      )
+
+      return false
