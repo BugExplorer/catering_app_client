@@ -15,9 +15,10 @@ define [
 
     panel: new PanelView()
 
-    initialize: (sprint, dailyMenus) ->
+    initialize: (sprint, dailyMenus, api_endpoint) ->
       @sprint = sprint
       @dailyMenus = dailyMenus
+      @api_endpoint = api_endpoint
       @sprintView = new SprintView(@sprint)
       @dailyMenusView = new DailyMenusCollectionView(@dailyMenus)
 
@@ -35,3 +36,7 @@ define [
       # Render form tabs
       @dailyMenusView.$el = @$('#daysContainer')
       @dailyMenusView.render()
+
+      # Setting action attribute on the form
+      # Maybe I could create a new model, serialize form and post data via js
+      $('#daysContainer').attr('action', @api_endpoint + '/sprints/' + @sprint.get('id') + '/daily_rations')

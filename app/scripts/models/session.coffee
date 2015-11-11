@@ -7,8 +7,6 @@ define [
   class SessionModel extends Backbone.Model
     url: 'sessions'
 
-    Backbone.emulateJSON = true
-
     initialize: () ->
       $.ajaxSetup({
         'beforeSend': (xhr) ->
@@ -16,7 +14,8 @@ define [
       })
 
       $.ajaxPrefilter( (options, originalOptions, jqXHR) =>
-        options.xhrFields = { withCredentials: true }
+        options.xhrFields =
+          withCredentials: true
 
         if this.get('auth_token')?
           jqXHR.setRequestHeader('X-Auth-Token', this.get('auth_token'))
@@ -33,8 +32,6 @@ define [
           sessionStorage.setItem('name', model.get('name'))
         error: (model, xhr, options) ->
           console.log('Login Error')
-          console.log(options)
-          console.log(xhr)
       )
 
     logout: (params) ->

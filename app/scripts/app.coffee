@@ -18,8 +18,6 @@ define [
     @defaults =
       api_endpoint: "http://127.0.0.1:3000/api/v1"
 
-    Backbone.emulateJSON = true
-
     constructor: (options = {}) ->
       @router = null
       @options = $.extend(Application.defaults, options)
@@ -45,11 +43,13 @@ define [
         view.render()
 
       @router.on 'route:sprint', (sprint_id) =>
+        # To set action attribute on the form
+        api_endpoint = @options.api_endpoint
         sprint = new SprintModel(sprint_id)
         dailyMenus = new DailyMenusCollection()
         sprint.fetch().then(() ->
           dailyMenus.fetch().then(() ->
-            view = new DailyRationsFormView(sprint, dailyMenus)
+            view = new DailyRationsFormView(sprint, dailyMenus, api_endpoint)
             view.render()
           )
         )
