@@ -35,12 +35,13 @@ define [
       @panel.delegateEvents()
 
       # Render sprint date
-      @sprintView.$el = @$('#sprintContainer')
+      @sprintView.$el = @$('#sprint')
       @sprintView.render()
 
       # Render form tabs
       @dailyMenusView.$el = @$('#dailyMenus')
       @dailyMenusView.render()
+      @dailyMenusView.delegateEvents()
 
     submit: (event) ->
       # Without that submit event start multiplying on the submit button

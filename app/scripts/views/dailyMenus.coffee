@@ -10,6 +10,9 @@ define [
   class DailyMenusCollectionView extends Backbone.View
     template: JST['app/scripts/templates/dailyMenus.hbs']
 
+    events:
+      "click input[type=checkbox]": "bindInputs"
+
     initialize: (dailyMenus) ->
       @dailyMenus = dailyMenus
       @dailyMenus.bind("sync", this.render, this)
@@ -18,12 +21,13 @@ define [
       @$el.html @template(dailyMenus: @dailyMenus.toJSON())
       # Use Jquery-UI to create tabbed form
       $("#tabs").tabs()
-      # Enable number input if checkbox is checked
-      $('input[type=checkbox]').click(() ->
-        id = $(this).attr('id')
-        input_el = $('#' + id + '-inp')
-        toggled = input_el.attr('disabled')
-        toggled = !toggled
-        input_el.prop('disabled', toggled)
-      )
+
+    bindInputs: (event) ->
+      checkbox = event.target
+      number_input = $(checkbox).closest('.dish').find('input[type=number]')
+      if ($(checkbox)).is(":checked")
+        number_input.removeAttr('disabled')
+      else
+        number_input.prop('disabled', true)
+
 
