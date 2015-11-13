@@ -32,26 +32,26 @@ define [
       @
 
     renderPanel: ->
-      @panelView = new PanelView()
-      @panelView.$el = @$('#user_panel')
-      @panelView.render()
-      @panelView.delegateEvents()
+      panelView = new PanelView()
+      panelView.$el = @$('#user_panel')
+      panelView.render()
+      panelView.delegateEvents()
       @
 
     renderSprint: ->
-      @sprintView = new SprintView(@sprint)
-      @sprintView.$el = @$('#sprint')
-      @sprint.fetch().then(() =>
-        @sprintView.render()
+      sprintView = new SprintView(@sprint)
+      sprintView.$el = @$('#sprint')
+      @sprint.fetch().then(() ->
+        sprintView.render()
       )
       @
 
     renderDays: ->
-      @daysView = new DaysCollectionView(@days)
-      @daysView.$el = @$('#days')
-      @days.fetch().then(() =>
-        @daysView.render()
-        @daysView.delegateEvents()
+      daysView = new DaysCollectionView(@days)
+      daysView.$el = @$('#days')
+      @days.fetch().then(() ->
+        daysView.render()
+        daysView.delegateEvents()
       )
       @
 
