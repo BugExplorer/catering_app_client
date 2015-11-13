@@ -14,15 +14,17 @@ define [
 
     el: '#container'
 
-    panel: new PanelView()
-
-    initialize: (sprint) ->
-      @sprint = sprint
-      # this.collection.bind("sync", this.render, this)
+    initialize: () ->
+      # this.collection.bind("reset", this.render, this)
 
     render: ->
-      @$el.html @template(sprints: @collection.toJSON())
+      @collection.fetch().then(() =>
+        @$el.html @template(sprints: @collection.toJSON())
+        this.renderPanel()
+      )
 
+    renderPanel: () ->
+      @panel = new PanelView()
       @panel.$el = @$('#user_panel')
       @panel.render()
       @panel.delegateEvents()

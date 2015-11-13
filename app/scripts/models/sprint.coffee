@@ -3,9 +3,7 @@ define [
   'backbone'
 
   'models/session'
-
-  'collections/dailyMenus'
-], (_, Backbone, SessionModel, DailyMenusCollection) ->
+], (_, Backbone, SessionModel) ->
   'use strict';
 
   class SprintModel extends Backbone.Model

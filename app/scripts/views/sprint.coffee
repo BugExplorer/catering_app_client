@@ -11,7 +11,7 @@ define [
 
     initialize: (sprint) ->
       @sprint = sprint
-      @sprint.bind("sync", this.render, this)
+      # @sprint.bind("sync", this.render, this)
 
     render: ->
       @$el.html @template(sprint: @sprint.toJSON())

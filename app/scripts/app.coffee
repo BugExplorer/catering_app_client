@@ -8,12 +8,12 @@ define [
   'models/sprint'
 
   'collections/sprints'
-  'collections/dailyMenus'
+  'collections/days'
 
   'views/login'
   'views/sprints'
-  'views/dailyRationsForm'
-], ($, _, Backbone, Router, SessionModel, SprintModel, SprintsCollection, DailyMenusCollection, LoginView, SprintsCollectionView, DailyRationsFormView) ->
+  'views/form'
+], ($, _, Backbone, Router, SessionModel, SprintModel, SprintsCollection, DaysCollection, LoginView, SprintsCollectionView, FormView) ->
   class Application
     @defaults =
       api_endpoint: "http://127.0.0.1:3000/api/v1"
@@ -44,22 +44,16 @@ define [
 
       @router.on 'route:sprint', (sprint_id) =>
         # To set action attribute on the form
-        api_endpoint = @options.api_endpoint
+        apiEndpoint = @options.api_endpoint
         sprint = new SprintModel(sprint_id)
-        dailyMenus = new DailyMenusCollection()
-        sprint.fetch().then(() ->
-          dailyMenus.fetch().then(() ->
-            view = new DailyRationsFormView(sprint, dailyMenus, api_endpoint)
-            view.render()
-          )
-        )
+        days = new DaysCollection()
+        view = new FormView(sprint, days, apiEndpoint)
+        view.render()
 
       @router.on 'route:sprints', (page) ->
         sprints = new SprintsCollection()
-        sprints.fetch().then(() ->
-          view = new SprintsCollectionView(collection: sprints)
-          view.render()
-        )
+        view = new SprintsCollectionView(collection: sprints)
+        view.render()
 
       Backbone.history.start()
 

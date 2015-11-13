@@ -7,15 +7,15 @@ define [
 
   'views/helpers'
 ], ($, _, Backbone, JST, ui, Helpers) ->
-  class DailyMenusCollectionView extends Backbone.View
-    template: JST['app/scripts/templates/dailyMenus.hbs']
+  class DaysCollectionView extends Backbone.View
+    template: JST['app/scripts/templates/days.hbs']
 
     events:
       "click input[type=checkbox]": "bindInputs"
 
     initialize: (dailyMenus) ->
       @dailyMenus = dailyMenus
-      @dailyMenus.bind("sync", this.render, this)
+      # @dailyMenus.bind("sync", this.render, this)
 
     render: ->
       @$el.html @template(dailyMenus: @dailyMenus.toJSON())
