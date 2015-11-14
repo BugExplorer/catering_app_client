@@ -13,7 +13,8 @@ define [
   'views/login'
   'views/sprints'
   'views/form'
-], ($, _, Backbone, Router, SessionModel, SprintModel, SprintsCollection, DaysCollection, LoginView, SprintsCollectionView, FormView) ->
+], ($, _, Backbone, Router, SessionModel, SprintModel, SprintsCollection
+ ,  DaysCollection, LoginView, SprintsCollectionView, FormView) ->
   class Application
     @defaults =
       api_endpoint: "http://127.0.0.1:3000/api/v1"
@@ -42,17 +43,17 @@ define [
         view = new LoginView()
         view.render()
 
-      @router.on 'route:sprint', (sprint_id) =>
+      @router.on 'route:sprint', (sprintId) =>
         # To set action attribute on the form
         apiEndpoint = @options.api_endpoint
-        sprint = new SprintModel(sprint_id)
+        sprint = new SprintModel(sprintId)
         days = new DaysCollection()
         view = new FormView(sprint, days, apiEndpoint)
         view.render()
 
       @router.on 'route:sprints', (page) ->
         sprints = new SprintsCollection()
-        view = new SprintsCollectionView(collection: sprints)
+        view = new SprintsCollectionView({ collection: sprints })
         view.render()
 
       Backbone.history.start()
@@ -63,8 +64,8 @@ define [
 
     checkAuth: ->
       if SessionModel.get('auth') is true
-        @router.navigate("sprints", {trigger: true})
+        @router.navigate("sprints", { trigger: true })
       else
-        @router.navigate("sessions/new", {trigger: true})
+        @router.navigate("sessions/new", { trigger: true })
 
   return new Application()

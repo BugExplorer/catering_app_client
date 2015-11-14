@@ -8,8 +8,8 @@ define [
   'views/days'
   'views/panel'
 
-  'models/order'
-], ($, _, Backbone, JST, SprintView, DaysCollectionView, PanelView, OrderModel) ->
+  'collections/dailyRations'
+], ($, _, Backbone, JST, SprintView, DaysCollectionView, PanelView, DailyRationsCollection) ->
   class FormView extends Backbone.View
     template: JST['app/scripts/templates/form.hbs']
 
@@ -29,14 +29,14 @@ define [
       this.renderPanel()
       this.renderSprint()
       this.renderDays()
-      @
+      return this
 
     renderPanel: ->
       panelView = new PanelView()
       panelView.$el = @$('#user_panel')
       panelView.render()
       panelView.delegateEvents()
-      @
+      return this
 
     renderSprint: ->
       sprintView = new SprintView(@sprint)
@@ -44,7 +44,7 @@ define [
       @sprint.fetch().then(() ->
         sprintView.render()
       )
-      @
+      return this
 
     renderDays: ->
       daysView = new DaysCollectionView(@days)
@@ -53,18 +53,20 @@ define [
         daysView.render()
         daysView.delegateEvents()
       )
-      @
+      return this
 
     submit: (event) ->
       # Without that submit event start multiplying on the submit button
       this.undelegateEvents()
 
-      creds = @$(event.currentTarget).serialize()
-      # Send params to a separate model, that sends POST to the server
-      order = new OrderModel(@sprint.get('id'))
-      order.save(creds).then(() ->
-        # Todo: make some message
-        Backbone.history.navigate('sprints', {trigger: true})
+      params = @$(event.currentTarget).serialize()
+      # Send params to a daily rations collection
+      # That sends a POST request and sets attributes from the response
+
+      dailyRations = new dailyRationsCollection(@sprint.get('id'))
+      dailyRations.save(params,
+        success: # Todo: make some message
+          Backbone.history.navigate('sprints', { trigger: true })
       )
 
       return false
