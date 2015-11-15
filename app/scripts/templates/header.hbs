@@ -1,0 +1,18 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="col-sm-8">
+      <div id="navbar">
+
+        <ul class="nav navbar-nav">
+          {{#if current_user}}
+            <li><p class="navbar-text">Hello, {{name}}.</p></li>
+            <li><a href="/#logout">Logout</a></li>
+          {{else}}
+            <li><a href="/">Login</a></li>
+          {{/if}}
+        </ul>
+
+      </div>
+    </div>
+  </div>
+</nav>

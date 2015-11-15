@@ -2,10 +2,10 @@ define [
   'underscore'
   'backbone'
 
-  'models/session'
+  'models/currentUser'
 
   'models/sprint'
-], (_, Backbone, SessionModel, SprintModel) ->
+], (_, Backbone, CurrentUser, SprintModel) ->
 
   class SprintsCollection extends Backbone.Collection
 
@@ -15,8 +15,8 @@ define [
       $.ajaxPrefilter( (options, originalOptions, jqXHR) ->
         options.xhrFields = { withCredentials: true }
 
-        if SessionModel.get('auth_token')
-          jqXHR.setRequestHeader('X-Auth-Token', SessionModel.get('auth_token'))
+        if CurrentUser.get('auth_token')
+          jqXHR.setRequestHeader('X-Auth-Token', CurrentUser.get('auth_token'))
       )
 
       @url = 'sprints'

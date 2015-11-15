@@ -2,8 +2,8 @@ define [
   'underscore'
   'backbone'
 
-  'models/session'
-], (_, Backbone, SessionModel) ->
+  'models/currentUser'
+], (_, Backbone, CurrentUser) ->
   'use strict';
 
   class SprintModel extends Backbone.Model
@@ -14,8 +14,8 @@ define [
         options.xhrFields =
           withCredentials: true
 
-        if SessionModel.get('auth_token')
-          jqXHR.setRequestHeader('X-Auth-Token', SessionModel.get('auth_token'))
+        if CurrentUser.get('auth_token')
+          jqXHR.setRequestHeader('X-Auth-Token', CurrentUser.get('auth_token'))
       )
 
       @url = 'sprints/' + sprint_id

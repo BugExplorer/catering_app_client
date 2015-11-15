@@ -21,5 +21,11 @@ require.config
 require [
   'backbone',
   'app'
-], (Backbone, App) ->
-  App.initialize()
+], (Backbone, Application) ->
+  # Fixes views memory leak
+  Backbone.View.prototype.leave = ->
+    @$el.empty().off()
+    this.stopListening()
+    return this
+
+  Application.initialize()
