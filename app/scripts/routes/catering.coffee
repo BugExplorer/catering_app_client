@@ -3,44 +3,59 @@ define [
 
   'models/currentUser'
   'models/session'
+  'models/sprint'
 
   'collections/sprints'
+  'collections/days'
 
   'views/header'
   'views/content'
   'views/login'
   'views/sprints'
-], (Backbone, CurrentUser, SessionModel, SprintsCollection, HeaderView, ContentView, LoginView, SprintsCollectionView) ->
+  'views/form'
+  'views/accessDenied'
+], (Backbone, CurrentUser, SessionModel, SprintModel, SprintsCollection
+ ,  DaysCollection, HeaderView, ContentView, LoginView, SprintsCollectionView
+ ,  FormView, AccessDeniedView) ->
   class CateringRouter extends Backbone.Router
     routes:
       "": "login"
       "logout": "logout"
       "sprints": "showSprints"
-      "sprint/:sprintId": "showSprint"
+      "sprint/:id": "showSprint"
 
     initialize: ->
       @headerView = new HeaderView()
       @contentView = new ContentView()
 
     login: ->
-      @layoutViews()
-      @contentView.swap(new LoginView({ model: new SessionModel() }))
+      if CurrentUser.get('auth')
+        this.navigate('sprints', { trigger: true })
+      else
+        @layoutViews()
+        @contentView.swap(new LoginView({ model: new SessionModel() }))
 
     logout: ->
-      if CurrentUser.get('auth')
-        CurrentUser.logout()
-        view = new LoginView()
-      else
-        view = new AccessDenied()
-      @layoutViews()
-      @contentView.swap(view)
+      CurrentUser.logout()
+      this.navigate('', { trigger: true })
 
     showSprints: ->
       @layoutViews()
-      @contentView.swap(
-        new SprintsCollectionView({ collection: new SprintsCollection() })
-      )
-      console.log(@contentView)
+      if CurrentUser.get('auth')
+        v = new SprintsCollectionView({ collection: new SprintsCollection() })
+      else
+        v = new AccessDeniedView()
+      @contentView.swap(v)
+
+    showSprint: (id) ->
+      @layoutViews()
+      if CurrentUser.get('auth')
+        sprint = new SprintModel({ id: id })
+        days = new DaysCollection()
+        v = new FormView(sprint, days)
+      else
+        v = new AccessDeniedView()
+      @contentView.swap(v)
 
     layoutViews: ->
       $('#header').html(@headerView.render().el)

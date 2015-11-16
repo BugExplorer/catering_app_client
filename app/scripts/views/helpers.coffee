@@ -23,5 +23,5 @@ define [
     (day) ->
       days = ["Monday", "Tuesday", "Wednesday", "Thursday"
       , "Friday", "Saturday", "Sunday"]
-      days[day - 1]
+      days[day]
   )

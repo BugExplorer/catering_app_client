@@ -5,13 +5,18 @@ define [
   'templates'
 
   'views/helpers'
-], ($, _, Backbone, JST, Helpers) ->
+  'channel'
+], ($, _, Backbone, JST, Helpers, channel) ->
   class SprintView extends Backbone.View
     template: JST['app/scripts/templates/sprint.hbs']
 
-    initialize: (sprint) ->
-      @sprint = sprint
-      # @sprint.bind("sync", this.render, this)
+    initialize: () ->
+      this.listenTo @model, "sync", this.render
+      this.listenTo @model, "error", this.triggerAccessDenied
+      @model.fetch()
+
+    triggerAccessDenied: -> channel.trigger "accessDenied"
 
     render: ->
-      @$el.html @template(sprint: @sprint.toJSON())
+      @$el.html @template(sprint: @model.toJSON())
+      return this

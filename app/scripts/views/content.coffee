@@ -8,10 +8,10 @@ define [
   'collections/sprints'
 
   'views/sprints'
-], ($, _, Backbone, JST, channel, SprintsCollection, SprintsCollectionView) ->
+  'views/accessDenied'
+], ($, _, Backbone, JST, channel, SprintsCollection, SprintsCollectionView
+ ,  AccessDeniedView) ->
   class ContentView extends Backbone.View
-    className: 'row'
-
     template: JST['app/scripts/templates/content.hbs']
 
     render: ->
@@ -20,10 +20,14 @@ define [
 
     initialize: ->
       @listenTo channel, "user:loggedIn", @swapToSprints
+      @listenTo channel, "accessDenied", @accessDenied
+
+    accessDenied: ->
+      @swap(new AccessDeniedView())
 
     swapToSprints: ->
-      console.log("Swap")
       @swap(new SprintsCollectionView({ collection: new SprintsCollection() }))
+      Backbone.history.navigate("sprints")
 
     swap: (view) ->
       @changeCurrentView(view)

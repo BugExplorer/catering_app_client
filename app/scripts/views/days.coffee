@@ -13,14 +13,14 @@ define [
     events:
       "click input[type=checkbox]": "bindInputs"
 
-    initialize: (dailyMenus) ->
-      @dailyMenus = dailyMenus
-      # @dailyMenus.bind("sync", this.render, this)
+    initialize: () ->
+      this.listenTo @collection, "reset", this.render
 
     render: ->
-      @$el.html @template(dailyMenus: @dailyMenus.toJSON())
+      @$el.html @template(dailyMenus: @collection.toJSON())
       # Use Jquery-UI to create tabbed form
       $("#tabs").tabs()
+      return this
 
     bindInputs: (event) ->
       checkbox = event.target

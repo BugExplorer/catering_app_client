@@ -2,23 +2,21 @@ define [
   'underscore'
   'backbone'
 
-  'models/session'
+  'models/currentUser'
 
   'models/dailyRation'
-], (_, Backbone, SessionModel, DailyRationModel) ->
+], (_, Backbone, CurrentUser, DailyRationModel) ->
 
   class DaysCollection extends Backbone.Collection
-    url: 'form_contents'
-
     model: DailyRationModel
 
     initialize: (sprintId) ->
       $.ajaxPrefilter( (options, originalOptions, jqXHR) ->
         options.xhrFields = { withCredentials: true }
 
-        if SessionModel.get('auth_token')
-          jqXHR.setRequestHeader('X-Auth-Token', SessionModel.get('auth_token'))
+        if CurrentUser.get('auth_token')
+          jqXHR.setRequestHeader('X-Auth-Token', CurrentUser.get('auth_token'))
       )
 
-      # Setting POST API url
+      # Setting the POST url
       @url = 'sprints/' + sprintId + '/daily_rations'

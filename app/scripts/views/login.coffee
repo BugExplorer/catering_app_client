@@ -12,8 +12,7 @@ define [
     # el: '#container'
 
     events:
-      'submit form.login': 'submit'
-      'submit form.login': 'submit'
+      'click button': 'submit'
 
     initialize: ->
       @listenTo @model, 'error', @renderError
@@ -35,8 +34,6 @@ define [
       event.preventDefault()
       @model.set email: @$('#email').val()
       @model.set password: @$('#password').val()
-      # console.log(@model.toJSON())
       @model.save()
-      this.undelegateEvents()
 
       return false

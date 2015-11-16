@@ -4,7 +4,9 @@ define [
   'backbone'
 
   'routes/catering'
-], ($, _, Backbone, CateringRouter) ->
+
+  'models/currentUser'
+], ($, _, Backbone, CateringRouter, CurrentUser) ->
   class Application
     @defaults =
       api_endpoint: "http://127.0.0.1:3000/api/v1"

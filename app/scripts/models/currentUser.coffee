@@ -22,6 +22,5 @@ define [
           @set auth: false
           delete @attributes.auth_token
           delete @attributes.name
-          window.csrf(data.csrf)
 
   return new CurrentUser()

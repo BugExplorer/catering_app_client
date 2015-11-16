@@ -6,7 +6,10 @@
   </ul>
   {{#each dailyMenus}}
     <div id="tabs-{{id}}">
-      <h3 class="center">{{ day_of_week day_number }} Order</h3>
+      <h3 class="center">
+        {{ day_of_week day_number }} Order |
+        Maximum: {{max_total}}
+      </h3>
       {{#each categories}}
         <h3>{{title}}</h3>
         <hr>
@@ -23,8 +26,9 @@
               <div class="form-group">
                 <label class="control-label col-md-2">Quanity:</label>
                 <div class="col-md-10">
-                  <input type="number" class="form-control" id="input{{id}}" disabled
-                    name="days[{{../../id}}][dishes][{{id}}]" value="1">
+                  <input type="number" class="form-control" id="input{{id}}"
+                    disabled name="days[{{../../id}}][dishes][{{id}}]"
+                    min="1" value="1">
                 </div>
               </div>
             </div>

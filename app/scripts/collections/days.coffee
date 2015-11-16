@@ -2,10 +2,10 @@ define [
   'underscore'
   'backbone'
 
-  'models/session'
+  'models/currentUser'
 
   'models/day'
-], (_, Backbone, SessionModel, DayModel) ->
+], (_, Backbone, CurrentUser, DayModel) ->
 
   class DaysCollection extends Backbone.Collection
     url: 'form_contents'
@@ -16,6 +16,6 @@ define [
       $.ajaxPrefilter( (options, originalOptions, jqXHR) ->
         options.xhrFields = { withCredentials: true }
 
-        if SessionModel.get('auth_token')
-          jqXHR.setRequestHeader('X-Auth-Token', SessionModel.get('auth_token'))
+        if CurrentUser.get('auth_token')
+          jqXHR.setRequestHeader('X-Auth-Token', CurrentUser.get('auth_token'))
       )
