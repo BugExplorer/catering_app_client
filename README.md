@@ -4,7 +4,7 @@
 
 ```sh
 $ pacman -S nodejs npm (Arch)
-$ sudo npm install -g yo grunt-cli bower
+$ sudo npm install -g grunt-cli bower
 $ bower install
 $ npm install
 ```
