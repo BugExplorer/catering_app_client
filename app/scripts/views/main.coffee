@@ -11,7 +11,9 @@ define [
   'views/helpers'
 ], ($, _, Backbone, JST, ui, SprintView, DaysCollectionView, Helpers) ->
   class MainFormView extends Backbone.View
-    template: JST['app/scripts/templates/mainFormView.hbs']
+    template: JST['app/scripts/templates/main.hbs']
+
+    className: "container-fluid"
 
     initialize: (sprint, days) ->
       @sprint = sprint

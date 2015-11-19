@@ -4,13 +4,15 @@ define [
   'backbone'
   'templates'
 
-  'views/mainFormView'
-  'views/sideBarView'
+  'views/main'
+  'views/sideBar'
 
   'collections/dailyRations'
-], ($, _, Backbone, JST, MainFormView, SideBarView, DailyRationsCollection) ->
+], ($, _, Backbone, JST, MainView, SideBarView, DailyRationsCollection) ->
   class FormView extends Backbone.View
     template: JST['app/scripts/templates/form.hbs']
+
+    # className: "row-fluid"
 
     events:
       'click button': 'submit'
@@ -28,7 +30,7 @@ define [
       return this
 
     renderMainView: ->
-      mainView = new MainFormView(@sprint, @days)
+      mainView = new MainView(@sprint, @days)
       mainView.$el = @$('#main')
       mainView.render()
       mainView.delegateEvents()

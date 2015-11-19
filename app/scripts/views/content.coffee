@@ -14,6 +14,8 @@ define [
   class ContentView extends Backbone.View
     template: JST['app/scripts/templates/content.hbs']
 
+    className: "container-fluid"
+
     render: ->
       @$el.html(@template())
       return this

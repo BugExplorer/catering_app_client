@@ -9,7 +9,7 @@ define [
   'views/helpers'
 ], ($, _, Backbone, JST, ui, channel, Helpers) ->
   class SideBarView extends Backbone.View
-    template: JST['app/scripts/templates/sideBarView.hbs']
+    template: JST['app/scripts/templates/sideBar.hbs']
 
     initialize: (sprint, days) ->
       @sprint = sprint

@@ -1,14 +1,12 @@
-<div class="container-fluid">
-  <div class="col-sm-offset-2 col-sm-8 col-sm-offset-2">
-    <ul class="list-group">
+<div class="col-sm-offset-2 col-sm-8 col-sm-offset-2">
+  <ul class="list-group">
 
-      {{#each sprints}}
-        <a href="#/sprint/{{id}}" type="button" class="list-group-item">
-          {{title}}
-          <span class="pull-right label {{state_class state}}">{{state}}</span>
-        </a>
-      {{/each}}
+    {{#each sprints}}
+      <a href="#/sprint/{{id}}" type="button" class="list-group-item">
+        {{title}}
+        <span class="pull-right label {{state_class state}}">{{state}}</span>
+      </a>
+    {{/each}}
 
-    </ul>
-  </div>
+  </ul>
 </div>
