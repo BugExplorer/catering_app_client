@@ -16,6 +16,7 @@ define [
 
     initialize: () ->
       this.initConfiguration()
+      this.checkAuth()
 
       new CateringRouter()
       Backbone.history.start()
@@ -25,5 +26,8 @@ define [
         (options, originalOptions, jqXHR) =>
           options.url = "#{@options.api_endpoint}/#{options.url}"
           return false
+
+    checkAuth: ->
+      CurrentUser.checkAuth()
 
   return new Application()

@@ -14,6 +14,8 @@ define [
 
     login: (auth_token, name) ->
       @set auth_token: auth_token, name: name, auth: true
+      localStorage.setItem('c_auth_token', this.get('auth_token'))
+      localStorage.setItem('c_name', this.get('name'))
 
     logout: () ->
       session = new SessionModel({ auth_token: @auth_token })
@@ -22,5 +24,11 @@ define [
           @set auth: false
           delete @attributes.auth_token
           delete @attributes.name
+
+    checkAuth: () ->
+      if (localStorage.getItem('c_auth_token') && localStorage.getItem('c_name'))
+        auth_token = localStorage.getItem('c_auth_token')
+        name = localStorage.getItem('c_name')
+        @set auth_token: auth_token, name: name, auth: true
 
   return new CurrentUser()
