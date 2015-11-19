@@ -84,3 +84,20 @@ p, .price {
     font-size: 1.1em;
     line-height: 1.7em;
 }
+
+/* Sidebar Styles */
+
+.sidebar-nav {
+    list-style: none;
+    color: #31708f;
+    background: #d9edf7;
+    border: 1px solid transparent;
+    border-color: #bce8f1;
+    border-radius: 4px;
+    padding: 0;
+}
+
+.sidebar-nav li {
+    text-indent: 20px;
+    line-height: 40px;
+}
