@@ -31,12 +31,12 @@ define [
       mainView = new MainFormView(@sprint, @days)
       mainView.$el = @$('#main')
       mainView.render()
+      mainView.delegateEvents()
       return this
 
     renderSideBarView: ->
       sideBarView = new SideBarView(@sprint, @days)
       sideBarView.$el = @$('#side')
-      console.log(sideBarView)
       sideBarView.render()
       return this
 
