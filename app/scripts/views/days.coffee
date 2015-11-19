@@ -29,5 +29,3 @@ define [
         number_input.removeAttr('disabled')
       else
         number_input.prop('disabled', true)
-
-

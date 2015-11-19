@@ -50,6 +50,7 @@ define [
     showSprint: (id) ->
       @layoutViews()
       if CurrentUser.get('auth')
+        # show form
         sprint = new SprintModel({ id: id })
         days = new DaysCollection()
         v = new FormView(sprint, days)

@@ -4,11 +4,11 @@ define [
   'backbone'
   'templates'
 
-  'views/sprint'
-  'views/days'
+  'views/mainFormView'
+  'views/sideBarView'
 
   'collections/dailyRations'
-], ($, _, Backbone, JST, SprintView, DaysCollectionView, DailyRationsCollection) ->
+], ($, _, Backbone, JST, MainFormView, SideBarView, DailyRationsCollection) ->
   class FormView extends Backbone.View
     template: JST['app/scripts/templates/form.hbs']
 
@@ -23,22 +23,21 @@ define [
 
     render: ->
       @$el.html @template()
-
-      this.renderSprint()
-      this.renderDays()
+      this.renderMainView()
+      this.renderSideBarView()
       return this
 
-    renderSprint: ->
-      sprintView = new SprintView({ model: @sprint })
-      sprintView.$el = @$('#sprint')
-      sprintView.render()
+    renderMainView: ->
+      mainView = new MainFormView(@sprint, @days)
+      mainView.$el = @$('#main')
+      mainView.render()
       return this
 
-    renderDays: ->
-      daysView = new DaysCollectionView({ collection: @days })
-      daysView.$el = @$('#days')
-      daysView.render()
-      daysView.delegateEvents()
+    renderSideBarView: ->
+      sideBarView = new SideBarView(@sprint, @days)
+      sideBarView.$el = @$('#side')
+      console.log(sideBarView)
+      sideBarView.render()
       return this
 
     submit: (event) ->
