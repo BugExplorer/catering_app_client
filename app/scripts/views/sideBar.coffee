@@ -6,8 +6,9 @@ define [
   'jquery_ui'
   'channel'
 
+  'views/sideBarDish'
   'views/helpers'
-], ($, _, Backbone, JST, ui, channel, Helpers) ->
+], ($, _, Backbone, JST, ui, channel, SideBarDishView, Helpers) ->
   class SideBarView extends Backbone.View
     template: JST['app/scripts/templates/sideBar.hbs']
 
@@ -15,28 +16,22 @@ define [
       @sprint = sprint
       @days = days
       this.listenTo @days, "reset", this.render
-      # this.listenTo @dishes, "add", this.render
       this.listenTo channel, "sideBar:dishAdded", @addDish
       this.listenTo channel, "sideBar:dishRemoved", @removeDish
 
-    # Change current day on the sidebar
-    # changeDay: ->
-
+    # Append dish to the sidebar (after day title)
     addDish: (dish, day_id) ->
+      view = new SideBarDishView(model: dish)
+      @$("#" + day_id).after(view.render().el)
       console.log(dish)
       console.log(day_id)
 
+    # Remove dish from the sidebar
     removeDish: (dish, day_id) ->
+      $("#" + dish.id + ".side-bar-dish").remove()
       console.log(dish)
       console.log(day_id)
 
     render: ->
       @$el.html @template(days: @days.toJSON())
       return this
-
-    # renderDays: ->
-    #   daysView = new DaysCollectionView({ collection: @days })
-    #   daysView.$el = @$('#days')
-    #   daysView.render()
-    #   daysView.delegateEvents()
-    #   return this
