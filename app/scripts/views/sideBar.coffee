@@ -22,6 +22,14 @@ define [
     # Change current day on the sidebar
     # changeDay: ->
 
+    addDish: (dish, day_id) ->
+      console.log(dish)
+      console.log(day_id)
+
+    removeDish: (dish, day_id) ->
+      console.log(dish)
+      console.log(day_id)
+
     render: ->
       @$el.html @template(days: @days.toJSON())
       return this

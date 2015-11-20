@@ -11,6 +11,10 @@ define [
   class CategoriesCollectionView extends Backbone.View
     template: JST['app/scripts/templates/categories.hbs']
 
+    initialize: (collection, day_id) ->
+      @collection = collection
+      @day_id = day_id
+
     render: ->
       @$el.html @template(categories: @collection)
       this.renderDishesCollection()
@@ -19,7 +23,7 @@ define [
     renderDishesCollection: ->
       _.each(@collection, (category) =>
         # Append categories view to the each category
-        view = new DishesCollectionView(collection: category.dishes)
+        view = new DishesCollectionView(category.dishes, @day_id)
         @$("#" + category.id).html(view.render().el)
         view.delegateEvents()
       )
