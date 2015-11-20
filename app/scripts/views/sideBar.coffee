@@ -15,7 +15,9 @@ define [
       @sprint = sprint
       @days = days
       this.listenTo @days, "reset", this.render
-      # this.listenTo channel, "dayChanged", @changeDay
+      # this.listenTo @dishes, "add", this.render
+      this.listenTo channel, "sideBar:dishAdded", @addDish
+      this.listenTo channel, "sideBar:dishRemoved", @removeDish
 
     # Change current day on the sidebar
     # changeDay: ->

@@ -12,8 +12,6 @@ define [
   class FormView extends Backbone.View
     template: JST['app/scripts/templates/form.hbs']
 
-    # className: "row-fluid"
-
     events:
       'click button': 'submit'
 

@@ -13,8 +13,6 @@ define [
   class MainFormView extends Backbone.View
     template: JST['app/scripts/templates/main.hbs']
 
-    className: "container-fluid"
-
     initialize: (sprint, days) ->
       @sprint = sprint
       @days = days
