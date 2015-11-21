@@ -14,12 +14,18 @@ define [
     events:
       "click input[type=checkbox]": "bindInputs"
 
+    tagName: "div"
+    className: "col-md-4 dish"
+
     initialize: (model, day_number) ->
       @model = model
       @day_number = day_number
 
     render: ->
       @$el.html @template(dish: @model)
+      # change id attribute
+      @$el.attr('id', "dish-" + @model.id)
+      console.log(@model)
       return this
 
     # Enable quanity input and add a checked dish to the sidebar

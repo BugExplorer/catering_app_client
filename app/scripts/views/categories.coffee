@@ -11,6 +11,9 @@ define [
   class CategoriesCollectionView extends Backbone.View
     template: JST['app/scripts/templates/categories.hbs']
 
+    tagName: "div"
+    className: "categories"
+
     initialize: (collection, day_number) ->
       @childViews = []
       @collection = collection
@@ -26,6 +29,6 @@ define [
         # Append categories view to the each category
         view = new DishesCollectionView(category.dishes, @day_number)
         @childViews.push(view)
-        @$("#" + category.id).html(view.render().el)
+        @$("#category-" + category.id).append(view.render().el)
         view.delegateEvents()
       )

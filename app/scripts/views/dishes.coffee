@@ -11,13 +11,16 @@ define [
   class DishesCollectionView extends Backbone.View
     template: JST['app/scripts/templates/dishes.hbs']
 
+    tagName: "div"
+    className: "dishes row"
+
     initialize: (collection, day_number) ->
       @childViews = []
       @collection = collection
       @day_number = day_number
 
     render: ->
-      @$el.html @template(collection: @collection)
+      @$el.html
       this.renderDishes()
       return this
 

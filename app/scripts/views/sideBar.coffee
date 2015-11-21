@@ -23,18 +23,12 @@ define [
     # Append dish to the sidebar (after day title)
     addDish: (dish, day_number) ->
       view = new SideBarDishView(model: dish)
-      # To prevent zombie views
       @childViews.push(view)
       @$("#" + day_number).append(view.render().el)
-      # console.log(dish)
-      console.log(@$("#" + day_number))
 
     # Remove dish from the sidebar
     removeDish: (dish, day_number) ->
-      # console.log(@$("#" + day_number))
-      @$("#" + day_number).children("#" + dish.id + ".side-bar-dish").remove()
-      # console.log(dish)
-      # console.log(day_number)
+      @$("#" + day_number).children("#dish-" + dish.id).remove()
 
     render: ->
       @$el.html @template(days: @days.toJSON())
