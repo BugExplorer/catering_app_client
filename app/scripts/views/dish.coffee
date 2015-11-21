@@ -25,7 +25,7 @@ define [
     # Enable quanity input and add a checked dish to the sidebar
     bindInputs: (event) ->
       checkbox = event.target
-      number_input = $(checkbox).parents('.dish').find('input[type=number]')
+      number_input = $(checkbox).closest('.dish').find('input[type=number]')
       if ($(checkbox)).is(":checked")
         number_input.removeAttr('disabled')
         # Trigger event and send id of checked dish

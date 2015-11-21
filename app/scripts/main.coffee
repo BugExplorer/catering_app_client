@@ -26,6 +26,8 @@ require [
   Backbone.View.prototype.leave = ->
     @$el.empty().off()
     this.stopListening()
+    if @childViews
+      @childViews.forEach (v) -> v.leave()
     return this
 
   Application.initialize()

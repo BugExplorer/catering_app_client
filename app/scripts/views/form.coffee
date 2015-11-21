@@ -16,6 +16,7 @@ define [
       'click button': 'submit'
 
     initialize: (sprint, days) ->
+      @childViews = []
       @sprint = sprint
       @sprint.fetch()
       @days = days
@@ -30,6 +31,8 @@ define [
     renderMainView: ->
       mainView = new MainView(@sprint, @days)
       mainView.$el = @$('#main')
+      # To prevent zombie views
+      @childViews.push(mainView)
       mainView.render()
       mainView.delegateEvents()
       return this
@@ -37,6 +40,8 @@ define [
     renderSideBarView: ->
       sideBarView = new SideBarView(@sprint, @days)
       sideBarView.$el = @$('#side')
+      # To prevent zombie views
+      @childViews.push(sideBarView)
       sideBarView.render()
       return this
 

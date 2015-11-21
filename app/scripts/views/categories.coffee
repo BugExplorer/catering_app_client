@@ -12,6 +12,7 @@ define [
     template: JST['app/scripts/templates/categories.hbs']
 
     initialize: (collection, day_id) ->
+      @childViews = []
       @collection = collection
       @day_id = day_id
 
@@ -24,6 +25,7 @@ define [
       _.each(@collection, (category) =>
         # Append categories view to the each category
         view = new DishesCollectionView(category.dishes, @day_id)
+        @childViews.push(view)
         @$("#" + category.id).html(view.render().el)
         view.delegateEvents()
       )

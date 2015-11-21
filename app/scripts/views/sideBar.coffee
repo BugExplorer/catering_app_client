@@ -13,6 +13,7 @@ define [
     template: JST['app/scripts/templates/sideBar.hbs']
 
     initialize: (sprint, days) ->
+      @childViews = []
       @sprint = sprint
       @days = days
       this.listenTo @days, "reset", this.render
@@ -22,15 +23,17 @@ define [
     # Append dish to the sidebar (after day title)
     addDish: (dish, day_id) ->
       view = new SideBarDishView(model: dish)
-      @$("#" + day_id).after(view.render().el)
+      # To prevent zombie views
+      @childViews.push(view)
+      @$("#" + day_id).append(view.render().el)
       console.log(dish)
-      console.log(day_id)
+      # console.log(day_id)
 
     # Remove dish from the sidebar
     removeDish: (dish, day_id) ->
       $("#" + dish.id + ".side-bar-dish").remove()
-      console.log(dish)
-      console.log(day_id)
+      # console.log(dish)
+      # console.log(day_id)
 
     render: ->
       @$el.html @template(days: @days.toJSON())

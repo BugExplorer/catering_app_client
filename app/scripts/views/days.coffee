@@ -12,6 +12,7 @@ define [
     template: JST['app/scripts/templates/days.hbs']
 
     initialize: () ->
+      @childViews = []
       this.listenTo @collection, "reset", this.render
 
     render: ->
@@ -22,9 +23,10 @@ define [
       return this
 
     renderCategories: ->
-      @collection.each((day) ->
+      @collection.each((day) =>
         # Append categories view to the each category
         view = new CategoriesCollectionView(day.get("categories"), day.id)
+        @childViews.push(view)
         $("#tabs-" + day.id).html(view.render().el)
         view.delegateEvents()
       )
