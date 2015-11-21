@@ -16,5 +16,5 @@ define [
     render: ->
       @$el.html @template(dish: @model)
       # set li's id
-      @$el.attr('id', @model.id)
+      @$el.attr('id', "dish-" + @model.id)
       return this

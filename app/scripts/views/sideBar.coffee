@@ -27,11 +27,11 @@ define [
       @childViews.push(view)
       @$("#" + day_number).append(view.render().el)
       # console.log(dish)
-      console.log(day_number)
+      console.log(@$("#" + day_number))
 
     # Remove dish from the sidebar
     removeDish: (dish, day_number) ->
-      console.log(@$("#" + day_number))
+      # console.log(@$("#" + day_number))
       @$("#" + day_number).children("#" + dish.id + ".side-bar-dish").remove()
       # console.log(dish)
       # console.log(day_number)
