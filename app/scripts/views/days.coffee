@@ -25,7 +25,7 @@ define [
     renderCategories: ->
       @collection.each((day) =>
         # Append categories view to the each category
-        view = new CategoriesCollectionView(day.get("categories"), day.get("day_number"))
+        view = new CategoriesCollectionView(day.get("categories"), day.id)
         @childViews.push(view)
         $("#tabs-" + day.id).append(view.render().el)
         view.delegateEvents()

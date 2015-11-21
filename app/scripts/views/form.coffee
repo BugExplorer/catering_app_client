@@ -47,7 +47,7 @@ define [
 
     submit: (event) ->
       # Without that submit event start multiplying on the submit button
-      this.undelegateEvents()
+      # this.undelegateEvents()
 
       # Serialize form parameters that has multi-arrays in them.
       params = @$('form').serialize()

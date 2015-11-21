@@ -21,14 +21,14 @@ define [
       this.listenTo channel, "sideBar:dishRemoved", @removeDish
 
     # Append dish to the sidebar (after day title)
-    addDish: (dish, day_number) ->
+    addDish: (dish, day_id) ->
       view = new SideBarDishView(model: dish)
       @childViews.push(view)
-      $(view.render().el).appendTo(@$("#" + day_number)).slideDown(250)
+      $(view.render().el).appendTo(@$("#" + day_id)).slideDown(250)
 
     # Remove dish from the sidebar
-    removeDish: (dish, day_number) ->
-      @$("#" + day_number).children("#dish-" + dish.id).slideUp(200, () ->
+    removeDish: (dish, day_id) ->
+      @$("#" + day_id).children("#dish-" + dish.id).slideUp(200, () ->
         # Remove dish when animation is complete
         this.remove()
       )
