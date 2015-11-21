@@ -21,19 +21,20 @@ define [
       this.listenTo channel, "sideBar:dishRemoved", @removeDish
 
     # Append dish to the sidebar (after day title)
-    addDish: (dish, day_id) ->
+    addDish: (dish, day_number) ->
       view = new SideBarDishView(model: dish)
       # To prevent zombie views
       @childViews.push(view)
-      @$("#" + day_id).append(view.render().el)
-      console.log(dish)
-      # console.log(day_id)
+      @$("#" + day_number).append(view.render().el)
+      # console.log(dish)
+      console.log(day_number)
 
     # Remove dish from the sidebar
-    removeDish: (dish, day_id) ->
-      $("#" + dish.id + ".side-bar-dish").remove()
+    removeDish: (dish, day_number) ->
+      console.log(@$("#" + day_number))
+      @$("#" + day_number).children("#" + dish.id + ".side-bar-dish").remove()
       # console.log(dish)
-      # console.log(day_id)
+      # console.log(day_number)
 
     render: ->
       @$el.html @template(days: @days.toJSON())
