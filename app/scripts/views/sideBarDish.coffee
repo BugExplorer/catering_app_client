@@ -17,4 +17,6 @@ define [
       @$el.html @template(dish: @model)
       # set li's id
       @$el.attr('id', "dish-" + @model.id)
+      # To make slide animation via Jquery
+      @$el.css("display", "none");
       return this

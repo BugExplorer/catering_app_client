@@ -24,11 +24,14 @@ define [
     addDish: (dish, day_number) ->
       view = new SideBarDishView(model: dish)
       @childViews.push(view)
-      @$("#" + day_number).append(view.render().el)
+      $(view.render().el).appendTo(@$("#" + day_number)).slideDown(250)
 
     # Remove dish from the sidebar
     removeDish: (dish, day_number) ->
-      @$("#" + day_number).children("#dish-" + dish.id).remove()
+      @$("#" + day_number).children("#dish-" + dish.id).slideUp(200, () ->
+        # Remove dish when animation is complete
+        this.remove()
+      )
 
     render: ->
       @$el.html @template(days: @days.toJSON())
