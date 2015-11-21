@@ -22,10 +22,9 @@ define [
       @day_number = day_number
 
     render: ->
-      @$el.html @template(dish: @model)
+      @$el.html @template(dish: @model, day: @day_number)
       # change id attribute
       @$el.attr('id', "dish-" + @model.id)
-      console.log(@model)
       return this
 
     # Enable quanity input and add a checked dish to the sidebar
