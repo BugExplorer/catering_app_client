@@ -13,13 +13,14 @@ define [
     tagName: "li"
     className: "side-bar-dish"
 
-    initialize: (dish, day_id, day) ->
+    initialize: (dish, day_id, day, quanity) ->
       @model   = dish
       @day_id  = day_id
       @day     = day
-      @price   = @model.price
-      @quanity = 1
+      @price   = (parseFloat(dish.price) * parseFloat(quanity)).toFixed(2)
+      @quanity = quanity
       this.listenTo channel, "sideBarDish:quanityChanged", @changeQuanity
+      this.listenTo channel, "sideBarDish:leave", @remove
 
     changeQuanity: (dish, day_id, quanity) ->
       if @model == dish && @day_id == day_id
@@ -28,11 +29,17 @@ define [
         channel.trigger("sideBarDish:priceChanged", price, @price, day_id)
         @price = price
         @quanity = quanity
-        @$el.find(".price").html(price)
-        @$el.find(".badge").html(quanity)
+        # Re-render
+        this.render()
+
+    remove: (view_cid) ->
+      if @cid == view_cid
+        this.undelegateEvents()
+        this.leave()
 
     render: ->
       @$el.html @template(dish: @model, price: @price, quanity: @quanity)
       # set li's id
       @$el.attr('id', "dish-" + @model.id)
+      @$el.attr('view', @cid)
       return this

@@ -31,7 +31,7 @@ define [
 
     quanityChanged: (event) ->
       input = event.target
-      @quanity = $(input).val();
+      @quanity = $(input).val()
       channel.trigger("sideBarDish:quanityChanged", @model, @day_id, @quanity)
 
     # Enable quanity input and add a checked dish to the sidebar
