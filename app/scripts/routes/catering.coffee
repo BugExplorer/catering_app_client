@@ -36,8 +36,8 @@ define [
         @contentView.swap(new LoginView({ model: new SessionModel() }))
 
     logout: ->
-      CurrentUser.logout()
-      this.navigate('', { trigger: true })
+      CurrentUser.logout().then(() =>
+        this.navigate('', true))
 
     showSprints: ->
       @layoutViews()
@@ -49,14 +49,28 @@ define [
 
     showSprint: (id) ->
       @layoutViews()
-      if CurrentUser.get('auth')
-        # show form
-        sprint = new SprintModel({ id: id })
-        days = new DaysCollection()
-        v = new FormView(sprint, days)
-      else
+      unless CurrentUser.get('auth')
         v = new AccessDeniedView()
-      @contentView.swap(v)
+        @contentView.swap(v)
+      else
+        # Check if user made order before
+        response = $.ajax({
+          url: 'sprints/' + id + '/daily_rations',
+          headers: { 'X-Auth-Token': CurrentUser.get('auth_token') }
+        })
+        .done(() =>
+          # There are db records with that user
+          if response.status == 204
+            v = new AccessDeniedView()
+          else
+            # Show order form
+            sprint = new SprintModel({ id: id })
+            days = new DaysCollection()
+            v = new FormView(sprint, days)
+
+          @contentView.swap(v)
+        )
+
 
     layoutViews: ->
       $('#header').html(@headerView.render().el)

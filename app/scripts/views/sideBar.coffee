@@ -14,9 +14,9 @@ define [
 
     initialize: (sprint, days) ->
       @childViews = []
+      @total_price = []
       @sprint = sprint
       @days = days
-      @total_price = []
       this.listenTo @days, "reset", this.render
       this.listenTo channel, "sideBar:dishAdded", @addDish
       this.listenTo channel, "sideBar:dishRemoved", @removeDish
