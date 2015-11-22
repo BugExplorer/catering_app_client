@@ -111,5 +111,14 @@ p, .price {
 
 .side-bar-dish {
     color: #31708f;
-    background: #C0D3DC;
+    background: #c0d3dc;
+}
+
+span.badge {
+    display: inline;
+    margin-left: 5px;
+}
+
+.error {
+    color: red;
 }

@@ -46,15 +46,17 @@ define [
       return this
 
     submit: (event) ->
-      # Without that submit event start multiplying on the submit button
-      # this.undelegateEvents()
+      if $("li.error")[0]
+        alert("Please check form errors.")
+      else if $(":checkbox:checked").length == 0
+        alert("Please check dishes")
+      else
+        # Serialize form parameters that has multi-arrays in them.
+        params = @$('form').serialize()
+        params = params.replace(/%5B/g,"[")
+        params = params.replace(/%5D/g,"]")
 
-      # Serialize form parameters that has multi-arrays in them.
-      params = @$('form').serialize()
-      params = params.replace(/%5B/g,"[")
-      params = params.replace(/%5D/g,"]")
-
-      # Send params to a daily rations collection
-      # That sends a POST request and sets attributes from the response
-      dailyRations = new DailyRationsCollection(@sprint.get('id'))
-      dailyRations.fetch(data: params, type: 'POST')
+        # Send params to a daily rations collection
+        # That sends a POST request and sets attributes from the response
+        dailyRations = new DailyRationsCollection(@sprint.get('id'))
+        dailyRations.fetch(data: params, type: 'POST')
