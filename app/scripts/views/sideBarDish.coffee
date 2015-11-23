@@ -31,6 +31,7 @@ define [
         channel.trigger('sideBarDish:priceChanged', price, @price, day_id)
         @price = price
         @quanity = quanity
+
         # Re-render view
         this.render()
 
