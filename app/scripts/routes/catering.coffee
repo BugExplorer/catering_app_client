@@ -19,10 +19,10 @@ define [
  ,  FormView, AccessDeniedView) ->
   class CateringRouter extends Backbone.Router
     routes:
-      "": "login"
-      "logout": "logout"
-      "sprints": "showSprints"
-      "sprint/:id": "showSprint"
+      '': 'login'
+      'logout': 'logout'
+      'sprints': 'showSprints'
+      'sprint/:id': 'showSprint'
 
     initialize: ->
       @headerView = new HeaderView()
@@ -60,7 +60,7 @@ define [
         })
         .done(() =>
           # There are db records with that user
-          if response.status == 204
+          if response.status == 400
             v = new AccessDeniedView()
           else
             # Show order form

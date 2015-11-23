@@ -9,8 +9,8 @@ define [
   'views/helpers'
 ], ($, _, Backbone, JST, ui, DishView, Helpers) ->
   class DishesCollectionView extends Backbone.View
-    tagName: "div"
-    className: "dishes row"
+    tagName: 'div'
+    className: 'dishes row'
 
     initialize: (collection, day_id) ->
       @childViews = []

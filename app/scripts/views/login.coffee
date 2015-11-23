@@ -9,8 +9,6 @@ define [
   class LoginView extends Backbone.View
     template: JST['app/scripts/templates/login.hbs']
 
-    # el: '#container'
-
     events:
       'click button': 'submit'
 
@@ -22,7 +20,7 @@ define [
       @$('.alert').html('Credentials are not valid').show()
 
     triggerLoggedIn: ->
-      channel.trigger("user:loggedIn",
+      channel.trigger('user:loggedIn',
                        @model.get('auth_token'),
                        @model.get('name'))
 

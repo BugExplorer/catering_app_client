@@ -9,7 +9,7 @@ define [
 ], ($, _, Backbone, CateringRouter, CurrentUser) ->
   class Application
     @defaults =
-      api_endpoint: "http://127.0.0.1:3000/api/v1"
+      api_endpoint: 'http://127.0.0.1:3000/api/v1'
 
     constructor: (options = {}) ->
       @options = $.extend(Application.defaults, options)

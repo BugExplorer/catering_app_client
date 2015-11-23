@@ -7,7 +7,7 @@ define [
   'models/dailyRation'
 ], (_, Backbone, CurrentUser, DailyRationModel) ->
 
-  class DaysCollection extends Backbone.Collection
+  class DailyRationsCollection extends Backbone.Collection
     model: DailyRationModel
 
     initialize: (sprintId) ->
@@ -18,5 +18,5 @@ define [
           jqXHR.setRequestHeader('X-Auth-Token', CurrentUser.get('auth_token'))
       )
 
-      # Setting the POST url
+      # Setting the POST and GET url
       @url = 'sprints/' + sprintId + '/daily_rations'

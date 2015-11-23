@@ -14,7 +14,7 @@ define [
     className: 'navbar'
 
     initialize: ->
-      @listenTo channel, "user:loggedIn", @render
+      @listenTo channel, 'user:loggedIn', @render
 
     render: ->
       @$el.html @template({ current_user: CurrentUser.get('name') })

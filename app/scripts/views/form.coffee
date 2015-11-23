@@ -3,12 +3,12 @@ define [
   'underscore'
   'backbone'
   'templates'
-
+  'channel'
   'views/main'
   'views/sideBar'
 
   'collections/dailyRations'
-], ($, _, Backbone, JST, MainView, SideBarView, DailyRationsCollection) ->
+], ($, _, Backbone, JST, channel, MainView, SideBarView, DailyRationsCollection) ->
   class FormView extends Backbone.View
     template: JST['app/scripts/templates/form.hbs']
 
@@ -46,17 +46,25 @@ define [
       return this
 
     submit: (event) ->
-      if $("li.error")[0]
-        alert("Please check form errors.")
-      else if $(":checkbox:checked").length == 0
-        alert("Please check dishes")
+      if $('li.error')[0]
+        alert('Please check form errors.')
+      else if $(':checkbox:checked').length == 0
+        alert('Please check dishes')
       else
         # Serialize form parameters that has multi-arrays in them.
         params = @$('form').serialize()
-        params = params.replace(/%5B/g,"[")
-        params = params.replace(/%5D/g,"]")
+        params = params.replace(/%5B/g,'[')
+        params = params.replace(/%5D/g,']')
 
         # Send params to a daily rations collection
         # That sends a POST request and sets attributes from the response
         dailyRations = new DailyRationsCollection(@sprint.get('id'))
-        dailyRations.fetch(data: params, type: 'POST')
+        dailyRations.fetch(
+          reset: true
+          data: params
+          type: 'POST'
+          success: (model, response) ->
+            channel.trigger 'order:submitted'
+          error: (model, response) ->
+            channel.trigger 'accessDenied'
+        )

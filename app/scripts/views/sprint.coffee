@@ -11,11 +11,11 @@ define [
     template: JST['app/scripts/templates/sprint.hbs']
 
     initialize: () ->
-      this.listenTo @model, "sync", this.render
-      this.listenTo @model, "error", this.triggerAccessDenied
+      this.listenTo @model, 'sync', this.render
+      this.listenTo @model, 'error', this.triggerAccessDenied
       @model.fetch()
 
-    triggerAccessDenied: -> channel.trigger "accessDenied"
+    triggerAccessDenied: -> channel.trigger 'accessDenied'
 
     render: ->
       @$el.html @template(sprint: @model.toJSON())

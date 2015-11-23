@@ -11,5 +11,6 @@ define [
         options.xhrFields = { withCredentials: true }
 
         if localStorage.getItem('c_auth_token')
-          jqXHR.setRequestHeader('X-Auth-Token', localStorage.getItem('c_auth_token'))
+          jqXHR.setRequestHeader('X-Auth-Token',
+            localStorage.getItem('c_auth_token'))
       )
