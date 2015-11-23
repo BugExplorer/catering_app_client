@@ -40,7 +40,7 @@ define [
       number_input = $(checkbox).closest('.dish').find('input[type=number]')
       if ($(checkbox)).is(":checked")
         number_input.removeAttr('disabled')
-        # Trigger event and send id and quanity of checked dish
+        # Trigger event, send id and quanity of checked dish
         @quanity = @$el.closest('.dish').find('input[type=number]').val()
         channel.trigger("sideBar:dishAdded", @model, @day_id, @quanity)
       else

@@ -22,16 +22,18 @@ define [
       this.listenTo channel, "sideBarDish:quanityChanged", @changeQuanity
       this.listenTo channel, "sideBarDish:leave", @remove
 
+    # Change dish quanity on the sidebar and trigger price validation event
     changeQuanity: (dish, day_id, quanity) ->
       if @model == dish && @day_id == day_id
-        # Validate day limit
+        # Run total price validation
         price = (@model.price * quanity).toFixed(2)
         channel.trigger("sideBarDish:priceChanged", price, @price, day_id)
         @price = price
         @quanity = quanity
-        # Re-render
+        # Re-render view
         this.render()
 
+    # Call this when view is being removed
     remove: (view_cid) ->
       if @cid == view_cid
         this.undelegateEvents()
