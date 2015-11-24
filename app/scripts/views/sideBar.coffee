@@ -23,12 +23,12 @@ define [
       this.listenTo channel, 'sideBarDish:priceChanged', @validatePrice
 
     # Append dish to the sidebar (after day title)
-    addDish: (dish, day_id, quanity) ->
-      view = new SideBarDishView(dish, day_id, @days.get(day_id), quanity)
+    addDish: (dish, day_id, quantity) ->
+      view = new SideBarDishView(dish, day_id, @days.get(day_id), quantity)
       @childViews.push(view)
 
       # Validate price
-      price = (parseFloat(dish.price) * parseFloat(quanity)).toFixed(2)
+      price = (parseFloat(dish.price) * parseFloat(quantity)).toFixed(2)
       channel.trigger('sideBarDish:priceChanged', price, 0, day_id)
       rendered_view = view.render().el
 
@@ -37,10 +37,10 @@ define [
       $(rendered_view).appendTo(@$('#' + day_id)).slideDown(250)
 
     # Remove dish view from the sidebar and trigger price validation event
-    removeDish: (dish, day_id, quanity) ->
+    removeDish: (dish, day_id, quantity) ->
       @$('#' + day_id).children('#dish-' + dish.id).slideUp(200, () ->
         # Validate price
-        price = (parseFloat(dish.price) * parseFloat(quanity)).toFixed(2)
+        price = (parseFloat(dish.price) * parseFloat(quantity)).toFixed(2)
         channel.trigger('sideBarDish:priceChanged', 0, price, day_id)
 
         # Remove dish when animation is complete

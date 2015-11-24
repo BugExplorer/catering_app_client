@@ -3,16 +3,32 @@ define [
   'underscore'
   'backbone'
   'templates'
-  'channel'
-], ($, _, Backbone, JST, channel) ->
+
+  'views/dailyRation'
+], ($, _, Backbone, JST, DailyRationView) ->
   class OrderView extends Backbone.View
     template: JST['app/scripts/templates/order.hbs']
 
-    # className: 'navbar'
+    tagName: 'div'
+    className: 'col-sm-offset-2 col-sm-8 col-sm-offset-2'
 
-    initialize: ->
-      # @listenTo channel, 'user:loggedIn', @render
+    initialize: (dailyRations, dailyMenus) ->
+      @childViews = []
+      @dailyRations = dailyRations
+      @dailyMenus   = dailyMenus
+      console.log(@dailyMenus)
+      console.log(@dailyRations)
+      this.listenTo @dailyRations, 'sync', this.render
+      this.listenTo @dailyMenus,   'sync', this.render
 
     render: ->
-      @$el.html @template()
+      @$el.html @template(dailyMenus: @dailyMenus.toJSON())
+      this.renderDailyRations()
       return this
+
+    renderDailyRations: ->
+      @dailyRations.each((dailyRation) =>
+        view = new DailyRationView(model: dailyRation)
+        @childViews.push(view)
+        @$('#' + dailyRation.get('daily_menu_id')).append(view.render().el)
+      )

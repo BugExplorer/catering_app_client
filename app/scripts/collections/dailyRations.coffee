@@ -18,5 +18,7 @@ define [
           jqXHR.setRequestHeader('X-Auth-Token', CurrentUser.get('auth_token'))
       )
 
+      @sprintId = sprintId
+
       # Setting the POST and GET url
-      @url = 'sprints/' + sprintId + '/daily_rations'
+      @url = 'sprints/' + @sprintId + '/daily_rations'

@@ -114,11 +114,15 @@ p, .price {
     background: #c0d3dc;
 }
 
-span.badge {
+span.badge, span.label-info {
     display: inline;
     margin-left: 5px;
 }
 
 .error {
     color: red;
+}
+
+.jumbotron {
+    padding: 10px 0;
 }

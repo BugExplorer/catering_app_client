@@ -13,24 +13,24 @@ define [
     tagName: 'li'
     className: 'side-bar-dish'
 
-    initialize: (dish, day_id, day, quanity) ->
+    initialize: (dish, day_id, day, quantity) ->
       @model   = dish
       @day_id  = day_id
       @day     = day
-      @price   = (parseFloat(dish.price) * parseFloat(quanity)).toFixed(2)
-      @quanity = quanity
+      @price   = (parseFloat(dish.price) * parseFloat(quantity)).toFixed(2)
+      @quantity = quantity
 
-      this.listenTo channel, 'sideBarDish:quanityChanged', @changeQuanity
+      this.listenTo channel, 'sideBarDish:quantityChanged', @changeQuantity
       this.listenTo channel, 'sideBarDish:leave', @remove
 
-    # Change dish quanity on the sidebar and trigger price validation event
-    changeQuanity: (dish, day_id, quanity) ->
+    # Change dish quantity on the sidebar and trigger price validation event
+    changeQuantity: (dish, day_id, quantity) ->
       if @model == dish && @day_id == day_id
         # Run total price validation
-        price = (@model.price * quanity).toFixed(2)
+        price = (@model.price * quantity).toFixed(2)
         channel.trigger('sideBarDish:priceChanged', price, @price, day_id)
         @price = price
-        @quanity = quanity
+        @quantity = quantity
 
         # Re-render view
         this.render()
@@ -42,7 +42,7 @@ define [
         this.leave()
 
     render: ->
-      @$el.html @template(dish: @model, price: @price, quanity: @quanity)
+      @$el.html @template(dish: @model, price: @price, quantity: @quantity)
       # set li's id
       @$el.attr('id', 'dish-' + @model.id)
       @$el.attr('view', @cid)

@@ -13,7 +13,7 @@ define [
 
     events:
       'click input[type=checkbox]': 'bindInputs'
-      'change input[type=number]': 'quanityChanged'
+      'change input[type=number]': 'quantityChanged'
 
     tagName: 'div'
     className: 'col-md-4 dish'
@@ -21,7 +21,7 @@ define [
     initialize: (model, day_id) ->
       @model = model
       @day_id = day_id
-      @quanity = 1
+      @quantity = 1
 
     render: ->
       @$el.html @template(dish: @model, day: @day_id)
@@ -29,24 +29,24 @@ define [
       @$el.attr('id', 'dish-' + @model.id)
       return this
 
-    quanityChanged: (event) ->
+    quantityChanged: (event) ->
       input = event.target
-      @quanity = $(input).val()
-      channel.trigger('sideBarDish:quanityChanged', @model, @day_id, @quanity)
+      @quantity = $(input).val()
+      channel.trigger('sideBarDish:quantityChanged', @model, @day_id, @quantity)
 
-    # Enable quanity input and add a checked dish to the sidebar
+    # Enable quantity input and add a checked dish to the sidebar
     bindInputs: (event) ->
       checkbox = event.target
       number_input = $(checkbox).closest('.dish').find('input[type=number]')
       if ($(checkbox)).is(':checked')
         number_input.removeAttr('disabled')
 
-        # Trigger event, send id and quanity of checked dish
-        @quanity = @$el.closest('.dish').find('input[type=number]').val()
-        channel.trigger('sideBar:dishAdded', @model, @day_id, @quanity)
+        # Trigger event, send id and quantity of checked dish
+        @quantity = @$el.closest('.dish').find('input[type=number]').val()
+        channel.trigger('sideBar:dishAdded', @model, @day_id, @quantity)
       else
         number_input.prop('disabled', true)
 
         # Remove dish from the sidebar
-        channel.trigger('sideBar:dishRemoved', @model, @day_id, @quanity)
+        channel.trigger('sideBar:dishRemoved', @model, @day_id, @quantity)
 

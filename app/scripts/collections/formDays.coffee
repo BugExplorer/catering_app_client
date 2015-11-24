@@ -4,13 +4,13 @@ define [
 
   'models/currentUser'
 
-  'models/day'
-], (_, Backbone, CurrentUser, DayModel) ->
+  'models/formDay'
+], (_, Backbone, CurrentUser, FormDayModel) ->
 
-  class DaysCollection extends Backbone.Collection
+  class FormDaysCollection extends Backbone.Collection
     url: 'form_contents'
 
-    model: DayModel
+    model: FormDayModel
 
     initialize: () ->
       $.ajaxPrefilter( (options, originalOptions, jqXHR) ->

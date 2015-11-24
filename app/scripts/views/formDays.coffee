@@ -8,7 +8,7 @@ define [
   'views/categories'
   'views/helpers'
 ], ($, _, Backbone, JST, ui, CategoriesCollectionView, Helpers) ->
-  class DaysCollectionView extends Backbone.View
+  class FormDaysCollectionView extends Backbone.View
     template: JST['app/scripts/templates/days.hbs']
 
     initialize: () ->

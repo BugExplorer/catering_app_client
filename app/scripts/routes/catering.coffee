@@ -6,17 +6,21 @@ define [
   'models/sprint'
 
   'collections/sprints'
-  'collections/days'
+  'collections/formDays'
+  'collections/dailyRations'
+  'collections/dailyMenus'
 
-  'views/header'
   'views/content'
   'views/login'
   'views/sprints'
   'views/form'
   'views/accessDenied'
+  'views/order'
+  'views/header'
 ], (Backbone, CurrentUser, SessionModel, SprintModel, SprintsCollection
- ,  DaysCollection, HeaderView, ContentView, LoginView, SprintsCollectionView
- ,  FormView, AccessDeniedView) ->
+ ,  FormDaysCollection, DailyRationsCollection, DailyMenusCollection
+ ,  ContentView, LoginView, SprintsCollectionView, FormView, AccessDeniedView
+ ,  OrderView, HeaderView) ->
   class CateringRouter extends Backbone.Router
     routes:
       '': 'login'
@@ -49,28 +53,23 @@ define [
 
     showSprint: (id) ->
       @layoutViews()
-      unless CurrentUser.get('auth')
-        v = new AccessDeniedView()
-        @contentView.swap(v)
-      else
-        # Check if user made order before
-        response = $.ajax({
-          url: 'sprints/' + id + '/daily_rations',
-          headers: { 'X-Auth-Token': CurrentUser.get('auth_token') }
-        })
-        .done(() =>
-          # There are db records with that user
-          if response.status == 400
-            v = new AccessDeniedView()
-          else
-            # Show order form
+      v = new AccessDeniedView()
+      # Check if user made order before
+      daily_rations = new DailyRationsCollection(id)
+      daily_rations.fetch(
+        success: (collection) ->
+          # If collection is empty, then show order form
+          if daily_rations.length == 0
             sprint = new SprintModel({ id: id })
-            days = new DaysCollection()
+            days = new FormDaysCollection()
             v = new FormView(sprint, days)
-
-          @contentView.swap(v)
-        )
-
+          else
+            dailyMenus = new DailyMenusCollection()
+            dailyMenus.fetch(reset: true)
+            v = new OrderView(daily_rations, dailyMenus)
+      ).then(() =>
+        @contentView.swap(v)
+      )
 
     layoutViews: ->
       $('#header').html(@headerView.render().el)

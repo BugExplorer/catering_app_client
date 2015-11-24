@@ -6,10 +6,10 @@ define [
   'jquery_ui'
 
   'views/sprint'
-  'views/days'
+  'views/formDays'
 
   'views/helpers'
-], ($, _, Backbone, JST, ui, SprintView, DaysCollectionView, Helpers) ->
+], ($, _, Backbone, JST, ui, SprintView, FormDaysCollectionView, Helpers) ->
   class MainFormView extends Backbone.View
     template: JST['app/scripts/templates/main.hbs']
 
@@ -34,7 +34,7 @@ define [
       return this
 
     renderDays: ->
-      daysView = new DaysCollectionView({ collection: @days })
+      daysView = new FormDaysCollectionView({ collection: @days })
       daysView.$el = @$('#days')
       # To prevent zombie views
       @childViews.push(daysView)

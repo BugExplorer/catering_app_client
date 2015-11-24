@@ -9,8 +9,11 @@ define [
 
   'views/sprints'
   'views/accessDenied'
+  'views/order'
+
+  'collections/dailyMenus'
 ], ($, _, Backbone, JST, channel, SprintsCollection, SprintsCollectionView
- ,  AccessDeniedView) ->
+ ,  AccessDeniedView, OrderView, DailyMenusCollection) ->
   class ContentView extends Backbone.View
     template: JST['app/scripts/templates/content.hbs']
 
@@ -29,9 +32,14 @@ define [
       @swap(new SprintsCollectionView({ collection: new SprintsCollection() }))
       Backbone.history.navigate('sprints')
 
-    swapToSprints: (sprint_id) ->
-      @swap(new OrderView({ collection: new DailyRationsCollection() }))
-      Backbone.history.navigate('order/' + sprint_id)
+    swapToOrder: (dailyRations) ->
+      dailyRations.fetch(
+        reset: true
+        success: () =>
+          dailyMenus = new DailyMenusCollection()
+          dailyMenus.fetch(reset: true)
+          @swap(new OrderView(dailyRations, dailyMenus))
+      )
 
     accessDenied: ->
       @swap(new AccessDeniedView())

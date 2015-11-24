@@ -63,8 +63,9 @@ define [
           reset: true
           data: params
           type: 'POST'
-          success: (model, response) ->
-            channel.trigger 'order:submitted'
-          error: (model, response) ->
+          success: (collection) ->
+            # Show order summary
+            channel.trigger 'order:submitted', collection
+          error: () ->
             channel.trigger 'accessDenied'
         )
