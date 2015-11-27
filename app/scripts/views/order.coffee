@@ -16,14 +16,16 @@ define [
       @childViews = []
       @dailyRations = dailyRations
       @dailyMenus   = dailyMenus
-      console.log(@dailyMenus)
-      console.log(@dailyRations)
+
       this.listenTo @dailyRations, 'sync', this.render
       this.listenTo @dailyMenus,   'sync', this.render
 
     render: ->
-      @$el.html @template(dailyMenus: @dailyMenus.toJSON())
-      this.renderDailyRations()
+      if @dailyRations.length == 0
+        @$el.html('<h2 class="text-center">Your order is empty</h2>')
+      else
+        @$el.html @template(dailyMenus: @dailyMenus.toJSON())
+        this.renderDailyRations()
       return this
 
     renderDailyRations: ->

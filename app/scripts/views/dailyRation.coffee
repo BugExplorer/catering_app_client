@@ -11,7 +11,6 @@ define [
     tagName: 'p'
 
     render: ->
-      # console.log(@model.toJSON())
       @$el.html @template(model: @model.toJSON())
       return this
 

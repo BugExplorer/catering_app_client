@@ -54,16 +54,18 @@ define [
     showSprint: (id) ->
       @layoutViews()
       v = new AccessDeniedView()
-      # Check if user made order before
+
+      sprint = new SprintModel({ id: id })
+      sprint.fetch()
+
       daily_rations = new DailyRationsCollection(id)
       daily_rations.fetch(
         success: (collection) ->
-          # If collection is empty, then show order form
-          if daily_rations.length == 0
-            sprint = new SprintModel({ id: id })
+          # If collection is empty and sprint is running, then show order form
+          if daily_rations.length == 0 && sprint.get('state') == 'running'
             days = new FormDaysCollection()
             v = new FormView(sprint, days)
-          else
+          else # show user's order
             dailyMenus = new DailyMenusCollection()
             dailyMenus.fetch(reset: true)
             v = new OrderView(daily_rations, dailyMenus)

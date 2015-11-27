@@ -13,7 +13,7 @@ define [
     initialize: () ->
       this.listenTo @model, 'sync', this.render
       this.listenTo @model, 'error', this.triggerAccessDenied
-      @model.fetch()
+      # @model.fetch()
 
     triggerAccessDenied: -> channel.trigger 'accessDenied'
 
