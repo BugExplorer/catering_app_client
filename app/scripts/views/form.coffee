@@ -19,6 +19,7 @@ define [
       @childViews = []
       @sprint     = sprint
       @days       = days
+
       @sprint.fetch()
       @days.fetch({ reset: true })
 
@@ -46,16 +47,15 @@ define [
       return this
 
     submit: (event) ->
-      if $('li.error')[0]
-        alert('Please check form errors.')
-      else if $(':checkbox:checked').length == 0
-        alert('Please check dishes')
+      if $(':checkbox:checked').length == 0
+        alert('Please fill order form')
       else
         # Serialize form parameters that has multi-arrays in them.
         params = @$('form').serialize()
         params = params.replace(/%5B/g,'[')
         params = params.replace(/%5D/g,']')
 
+        # Todo: Validate collection
         # Send params to a daily rations collection
         # That sends a POST request and sets attributes from the response
         dailyRations = new DailyRationsCollection(@sprint.get('id'))

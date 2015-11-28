@@ -5,9 +5,9 @@ define [
   'templates'
   'jquery_ui'
   'channel'
-
+  'models/dish'
   'views/helpers'
-], ($, _, Backbone, JST, ui, channel, Helpers) ->
+], ($, _, Backbone, JST, ui, channel, DishModel, Helpers) ->
   class DishView extends Backbone.View
     template: JST['app/scripts/templates/dish.hbs']
 
@@ -18,21 +18,23 @@ define [
     tagName: 'div'
     className: 'col-md-4 dish'
 
-    initialize: (model, day_id) ->
-      @model    = model
-      @day_id   = day_id
-      @quantity = 1
+    initialize: (model, dayId) ->
+      # Create dish model
+      @dish = new DishModel()
+      @dish.set(model)
+      @dish.set day_id: dayId
+      @dish.set quantity: 1
 
     render: ->
-      @$el.html @template(dish: @model, day: @day_id)
-      # change id attribute
-      @$el.attr('id', 'dish-' + @model.id)
+      @$el.html @template(dish: @dish.toJSON())
+      # Change id attribute
+      @$el.attr('id', 'dish-' + @dish.id)
       return this
 
     quantityChanged: (event) ->
       input = event.target
-      @quantity = $(input).val()
-      channel.trigger('sideBarDish:quantityChanged', @model, @day_id, @quantity)
+      @dish.set quantity: parseInt($(input).val())
+      channel.trigger('sideBarDish:quantityChanged', @dish)
 
     # Enable quantity input and add a checked dish to the sidebar
     bindInputs: (event) ->
@@ -40,12 +42,10 @@ define [
       number_input = $(checkbox).closest('.dish').find('input[type=number]')
       if ($(checkbox)).is(':checked')
         number_input.removeAttr('disabled')
-
-        # Trigger event, send id and quantity of checked dish
-        @quantity = @$el.closest('.dish').find('input[type=number]').val()
-        channel.trigger('sideBar:dishAdded', @model, @day_id, @quantity)
+        # Set quanity value from input
+        @dish.set quantity: parseInt(@$el.closest('.dish').find('input[type=number]').val())
+        channel.trigger('sideBar:dishAdded', @dish)
       else
         number_input.prop('disabled', true)
-
         # Remove dish from the sidebar
-        channel.trigger('sideBar:dishRemoved', @model, @day_id, @quantity)
+        channel.trigger('sideBar:dishRemoved', @dish)

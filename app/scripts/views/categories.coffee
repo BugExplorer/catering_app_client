@@ -14,10 +14,10 @@ define [
     tagName: 'div'
     className: 'categories'
 
-    initialize: (collection, day_id) ->
+    initialize: (collection, dayId) ->
       @childViews = []
       @collection = collection
-      @day_id     = day_id
+      @dayId      = dayId
 
     render: ->
       @$el.html @template(categories: @collection)
@@ -27,7 +27,7 @@ define [
     renderDishesCollection: ->
       _.each(@collection, (category) =>
         # Append categories view to the each category
-        view = new DishesCollectionView(category.dishes, @day_id)
+        view = new DishesCollectionView(category.dishes, @dayId)
         @childViews.push(view)
         @$('#category-' + category.id).append(view.render().el)
         view.delegateEvents()
