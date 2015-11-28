@@ -13,7 +13,7 @@ define [
     className: 'col-sm-offset-2 col-sm-8 col-sm-offset-2'
 
     initialize: (dailyRations, dailyMenus) ->
-      @childViews = []
+      @childViews   = []
       @dailyRations = dailyRations
       @dailyMenus   = dailyMenus
 

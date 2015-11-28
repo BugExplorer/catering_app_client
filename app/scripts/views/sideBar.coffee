@@ -13,11 +13,12 @@ define [
     template: JST['app/scripts/templates/sideBar.hbs']
 
     initialize: (sprint, days) ->
-      @childViews = []
+      @childViews  = []
       @total_price = []
-      @sprint = sprint
-      @days = days
-      this.listenTo @days, 'reset', this.render
+      @sprint      = sprint
+      @days        = days
+
+      this.listenTo @days,   'reset', this.render
       this.listenTo channel, 'sideBar:dishAdded', @addDish
       this.listenTo channel, 'sideBar:dishRemoved', @removeDish
       this.listenTo channel, 'sideBarDish:priceChanged', @validatePrice

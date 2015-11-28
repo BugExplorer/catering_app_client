@@ -19,8 +19,8 @@ define [
     className: 'col-md-4 dish'
 
     initialize: (model, day_id) ->
-      @model = model
-      @day_id = day_id
+      @model    = model
+      @day_id   = day_id
       @quantity = 1
 
     render: ->
@@ -49,4 +49,3 @@ define [
 
         # Remove dish from the sidebar
         channel.trigger('sideBar:dishRemoved', @model, @day_id, @quantity)
-

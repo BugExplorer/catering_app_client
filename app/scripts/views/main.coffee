@@ -15,8 +15,8 @@ define [
 
     initialize: (sprint, days) ->
       @childViews = []
-      @sprint = sprint
-      @days = days
+      @sprint     = sprint
+      @days       = days
 
     render: ->
       @$el.html @template()

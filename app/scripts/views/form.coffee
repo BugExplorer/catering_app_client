@@ -17,9 +17,9 @@ define [
 
     initialize: (sprint, days) ->
       @childViews = []
-      @sprint = sprint
+      @sprint     = sprint
+      @days       = days
       @sprint.fetch()
-      @days = days
       @days.fetch({ reset: true })
 
     render: ->

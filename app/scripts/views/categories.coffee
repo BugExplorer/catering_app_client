@@ -17,7 +17,7 @@ define [
     initialize: (collection, day_id) ->
       @childViews = []
       @collection = collection
-      @day_id = day_id
+      @day_id     = day_id
 
     render: ->
       @$el.html @template(categories: @collection)

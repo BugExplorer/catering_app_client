@@ -14,10 +14,10 @@ define [
     className: 'side-bar-dish'
 
     initialize: (dish, day_id, day, quantity) ->
-      @model   = dish
-      @day_id  = day_id
-      @day     = day
-      @price   = (parseFloat(dish.price) * parseFloat(quantity)).toFixed(2)
+      @model    = dish
+      @day_id   = day_id
+      @day      = day
+      @price    = (parseFloat(dish.price) * parseFloat(quantity)).toFixed(2)
       @quantity = quantity
 
       this.listenTo channel, 'sideBarDish:quantityChanged', @changeQuantity
