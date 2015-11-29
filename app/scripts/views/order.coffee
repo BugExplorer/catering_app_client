@@ -3,9 +3,9 @@ define [
   'underscore'
   'backbone'
   'templates'
-
+  'models/currentUser'
   'views/dailyRation'
-], ($, _, Backbone, JST, DailyRationView) ->
+], ($, _, Backbone, JST, CurrentUser, DailyRationView) ->
   class OrderView extends Backbone.View
     template: JST['app/scripts/templates/order.hbs']
 
@@ -30,7 +30,7 @@ define [
 
     renderDailyRations: ->
       @dailyRations.each((dailyRation) =>
-        view = new DailyRationView(model: dailyRation)
+        view = new DailyRationView(model: dailyRation.toJSON())
         @childViews.push(view)
         @$('#' + dailyRation.get('daily_menu_id')).append(view.render().el)
       )

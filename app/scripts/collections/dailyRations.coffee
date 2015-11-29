@@ -6,7 +6,6 @@ define [
 
   'models/dailyRation'
 ], (_, Backbone, CurrentUser, DailyRationModel) ->
-
   class DailyRationsCollection extends Backbone.Collection
     model: DailyRationModel
 
@@ -20,5 +19,5 @@ define [
 
       @sprintId = sprintId
 
-      # Setting the POST and GET url
+      # Setting the GET url
       @url = 'sprints/' + @sprintId + '/daily_rations'

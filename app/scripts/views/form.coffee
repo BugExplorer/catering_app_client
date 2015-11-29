@@ -6,9 +6,8 @@ define [
   'channel'
   'views/main'
   'views/sideBar'
-
-  'collections/dailyRations'
-], ($, _, Backbone, JST, channel, MainView, SideBarView, DailyRationsCollection) ->
+  'models/order'
+], ($, _, Backbone, JST, channel, MainView, SideBarView, OrderModel) ->
   class FormView extends Backbone.View
     template: JST['app/scripts/templates/form.hbs']
 
@@ -46,26 +45,42 @@ define [
       sideBarView.render()
       return this
 
+    seralizeParams: (elements) ->
+      params = {}
+      elements.each((i) ->
+        dish_price    = parseFloat($(this).attr("dish-price"))
+        dish_quantity = parseFloat($(this).val())
+        price = (dish_price * dish_quantity).toFixed(2)
+        obj = {
+          daily_menu_id: $(this).attr("day-id"),
+          dish_id:       $(this).attr("dish-id"),
+          title:         $(this).attr("dish-title"),
+          price:         price,
+          quantity:      dish_quantity
+        }
+        day = obj.daily_menu_id
+        unless params[day]
+          params[day] = []
+        params[day].push(obj)
+      )
+      return params
+
     submit: (event) ->
       if $(':checkbox:checked').length == 0
         alert('Please fill order form')
       else
-        # Serialize form parameters that has multi-arrays in them.
-        params = @$('form').serialize()
-        params = params.replace(/%5B/g,'[')
-        params = params.replace(/%5D/g,']')
+        # Serialize form parameters.
+        inputs = $('form input[type=number]:enabled')
+        params = this.seralizeParams(inputs)
 
-        # Todo: Validate collection
-        # Send params to a daily rations collection
-        # That sends a POST request and sets attributes from the response
-        dailyRations = new DailyRationsCollection(@sprint.get('id'))
-        dailyRations.fetch(
-          reset: true
-          data: params
-          type: 'POST'
-          success: (collection) ->
-            # Show order summary
-            channel.trigger 'order:submitted', collection
-          error: () ->
+        # Create and validate collection
+        order = new OrderModel(@sprint.get('id'), @days)
+        order.set(days: params)
+        if order.valid()
+          $.post(order.url, days: params)
+          .done(() =>
+            channel.trigger 'order:submitted', @sprint.get('id')
+          )
+          .fail(() ->
             channel.trigger 'accessDenied'
-        )
+          )
