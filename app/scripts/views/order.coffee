@@ -17,8 +17,8 @@ define [
       @dailyRations = dailyRations
       @dailyMenus   = dailyMenus
 
-      this.listenTo @dailyRations, 'sync', this.render
-      this.listenTo @dailyMenus,   'sync', this.render
+      this.listenTo @dailyRations, 'reset', this.render
+      this.listenTo @dailyMenus,   'reset', this.render
 
     render: ->
       if @dailyRations.length == 0

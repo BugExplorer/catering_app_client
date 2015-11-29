@@ -19,8 +19,8 @@ define [
       @sprint     = sprint
       @days       = days
 
-      @sprint.fetch()
-      @days.fetch({ reset: true })
+      # @sprint.fetch()
+      # @days.fetch({ reset: true })
 
     render: ->
       @$el.html @template()

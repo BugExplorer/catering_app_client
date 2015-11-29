@@ -59,19 +59,24 @@ define [
       sprint.fetch()
 
       daily_rations = new DailyRationsCollection(id)
-      daily_rations.fetch(
-        success: (collection) ->
-          # If collection is empty and sprint is running, then show order form
+      daily_rations.fetch(reset: true).then(() =>
+        new Promise((resolve, reject) =>
           if daily_rations.length == 0 && sprint.get('state') == 'running'
             days = new FormDaysCollection()
+            days.fetch(reset: true)
             v = new FormView(sprint, days)
+            resolve()
           else # show user's order
             dailyMenus = new DailyMenusCollection()
-            dailyMenus.fetch(reset: true)
-            v = new OrderView(daily_rations, dailyMenus)
-      ).then(() =>
-        @contentView.swap(v)
+            dailyMenus.fetch(reset: true).then(() =>
+              v = new OrderView(daily_rations, dailyMenus)
+              resolve()
+            )
+        ).then(() =>
+          @contentView.swap(v)
+        )
       )
+
 
     layoutViews: ->
       $('#header').html(@headerView.render().el)
