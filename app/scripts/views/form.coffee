@@ -19,6 +19,7 @@ define [
       @sprint     = sprint
       @days       = days
 
+      this.listenTo channel, 'form:invalid', @renderErrors
       # @sprint.fetch()
       # @days.fetch({ reset: true })
 
@@ -65,10 +66,19 @@ define [
       )
       return params
 
+    renderErrors: (errors) ->
+      @clearErrors()
+      _.each errors, @renderError, @
+
+    clearErrors: ->
+      @$('.side-bar-dish.error').remove()
+      @$('.error').removeClass('error')
+
+    renderError: (error, attribute) ->
+      @$('#' + attribute).addClass('error')
+      @$('#' + attribute).append('<li class="side-bar-dish error">' + error + '</li>')
+
     submit: (event) ->
-      if $(':checkbox:checked').length == 0
-        alert('Please fill order form')
-      else
         # Serialize form parameters.
         inputs = $('form input[type=number]:enabled')
         params = this.seralizeParams(inputs)

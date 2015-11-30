@@ -1,8 +1,9 @@
 define [
   'underscore'
   'backbone'
+  'channel'
   'models/currentUser'
-], (_, Backbone, CurrentUser) ->
+], (_, Backbone, channel, CurrentUser) ->
   class OrderModel extends Backbone.Model
     initialize: (sprintId, days) ->
       $.ajaxPrefilter( (options, originalOptions, jqXHR) ->
@@ -16,16 +17,18 @@ define [
       @url      = 'sprints/' + @sprintId + '/daily_rations'
 
     valid: () ->
-      errors = 0
+      errors = {}
       pairs = _.pairs(this.get('days'))
+      errors.sideNav = "Please, fill the form" if _.isEmpty(pairs)
       _.each(pairs, (pair) =>
-        dayLimit = @days.get(parseInt(pair[0])).get('max_total')
+        dayId = parseInt(pair[0])
+        dayLimit = @days.get(dayId).get('max_total')
         totalPrice = 0
         _.each(pair[1], (dish) ->
           totalPrice += parseFloat(dish.price)
         )
-        errors += 1 if totalPrice > dayLimit
+        errors[dayId] = "Order total is bigger than limit" if totalPrice > dayLimit
       )
-      console.log(errors)
-      return false if errors != 0
-      return true
+      return true if _.isEmpty(errors)
+      channel.trigger('form:invalid', errors)
+      return false
