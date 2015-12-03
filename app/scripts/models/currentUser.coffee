@@ -36,6 +36,9 @@ define [
           delete @attributes.name
           localStorage.removeItem('c_auth_token')
           localStorage.removeItem('c_name')
+        error: () =>
+          localStorage.removeItem('c_auth_token')
+          localStorage.removeItem('c_name')
       )
 
     checkAuth: () ->
